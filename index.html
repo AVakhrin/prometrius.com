@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Prometrius — контроль состояния сложной техники. Предиктивный мониторинг и телеметрия</title>
+    <meta name="description" content="Prometrius — детерминированная платформа мониторинга данных из внешних датчиков. Автономное ядро, предиктивная аналитика и честный «чёрный ящик» в микрокомпьютере, смартфоне, серверной стойке или головном устройстве автомобиля. Работает локально — интернет не нужен.">
+    <meta name="keywords" content="предиктивный мониторинг, телеметрия, диагностика техники, предсказание поломок, мониторинг автомобиля, черный ящик, автономный мониторинг, Prometrius, Прометриус">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Prometrius Lab">
+    <link rel="canonical" href="https://prometrius.com/">
+
+    <link rel="alternate" hreflang="ru" href="https://prometrius.com/">
+    <link rel="alternate" hreflang="en" href="https://prometrius.com/en/">
+    <link rel="alternate" hreflang="x-default" href="https://prometrius.com/en/">
+
+    <!-- Соцсети -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Prometrius">
+    <meta property="og:title" content="Prometrius — контроль состояния сложной техники">
+    <meta property="og:description" content="Детерминированная платформа мониторинга: автономное ядро, предиктивная аналитика, честный «чёрный ящик». Работает локально — интернет не нужен.">
+    <meta property="og:url" content="https://prometrius.com/">
+    <meta property="og:image" content="https://prometrius.com/preview.jpg">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" href="ic_favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Prometrius",
+      "alternateName": "Прометриус",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "Предиктивный мониторинг и телеметрия",
+      "operatingSystem": "Android, Linux, Windows",
+      "description": "Детерминированная платформа мониторинга данных из внешних датчиков: автономное ядро, предиктивная аналитика и честный чёрный ящик. Работает локально — интернет не нужен.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Prometrius Lab",
+        "url": "https://prometrius.com/"
+      }
+    }
+    </script>
+</head>
+<body>
+
+<!-- Неподвижный фон: станки слева вверху, джип справа внизу, поверх — графики,
+     маршрут на карте и табличные данные. Текст едет по нему, фон стоит -->
+<div class="bg" aria-hidden="true">
+    <div class="bg-photo bg-machines"></div>
+    <div class="bg-photo bg-jeep"></div>
+
+    <svg class="bg-scheme" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+        <g stroke="#22d3d3" stroke-width="1" opacity="0.18">
+            <path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600"/>
+            <path d="M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/>
+        </g>
+
+        <g fill="none" stroke="#22d3d3" stroke-width="2.5" opacity="0.5">
+            <path d="M40 640C200 620 280 500 440 520S680 660 840 540S1100 400 1280 480"/>
+            <path d="M40 720C240 710 360 640 540 660S800 740 980 640S1220 560 1400 600"/>
+        </g>
+
+        <g fill="none" stroke="#22d3d3" stroke-width="3" opacity="0.45">
+            <path d="M960 110L1070 190L1170 170L1230 270L1350 310L1420 430"/>
+        </g>
+        <g fill="#22d3d3" opacity="0.55">
+            <circle cx="960" cy="110" r="6"/>
+            <circle cx="1170" cy="170" r="6"/>
+            <circle cx="1350" cy="310" r="6"/>
+            <circle cx="1420" cy="430" r="6"/>
+        </g>
+
+        <g fill="#22d3d3" opacity="0.22">
+            <rect x="60" y="120" width="300" height="8" rx="4"/>
+            <rect x="60" y="142" width="240" height="8" rx="4"/>
+            <rect x="60" y="164" width="280" height="8" rx="4"/>
+            <rect x="60" y="186" width="200" height="8" rx="4"/>
+            <rect x="60" y="208" width="260" height="8" rx="4"/>
+        </g>
+    </svg>
+
+    <div class="bg-veil"></div>
+</div>
+
+<header>
+    <div class="header-container">
+        <a class="logo" href="./">
+            <img class="logo-mark" src="ic_logo.svg" alt="" width="30" height="30">
+            <span class="logo-text">Pro<span>metr</span>ius</span>
+        </a>
+        <nav>
+            <a href="#core">Ядро</a>
+            <a href="#models">Модели</a>
+            <a href="#extensions">Расширения</a>
+            <a href="#community">Сообщество</a>
+        </nav>
+        <div class="lang">
+            <span class="active">RU</span>
+            <a href="en/">EN</a>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="hero">
+        <h1>Контроль состояния<br>сложной техники</h1>
+        <p>Детерминированная платформа мониторинга данных из внешних датчиков. Автономное ядро,
+           предиктивная аналитика и честный «чёрный ящик» — в микрокомпьютере, смартфоне,
+           серверной стойке или головном устройстве автомобиля.</p>
+        <p class="hero-continuation">
+            <strong>Мы измеряем, а не угадываем.</strong> Для точного математического расчёта нет
+            необходимости в искусственном интеллекте — поэтому мы работаем на самых простых устройствах.
+            Для ведения сжатой истории данных не нужны облака — поэтому мы работаем локально, даже там,
+            где нет интернета. Результат доступен на любом устройстве, в любой точке мира и всегда
+            предсказуем.
+        </p>
+    </section>
+
+    <section id="core" class="section">
+        <h2>Ядро</h2>
+        <p class="lead">
+            Основа продукта. Ядро не знает, что именно оно измеряет: оно работает со структурой данных,
+            а смысл приходит из модели и правил. Поэтому одно ядро годится и для транспорта — автомобиля,
+            катера, самолёта, — и для промышленного оборудования: станка, насосной станции,
+            холодильной установки. Для транспорта учитываются показатели двигателя, коробки и колёс —
+            прямо на ходу. Система следит за изменениями и предупреждает заранее. В промышленности следим
+            за станками, насосами, холодильными установками: сигналы сходятся к серверной стойке,
+            а правила определяют состояние каждой единицы.
+        </p>
+
+        <div class="features">
+            <article class="feature-card">
+                <h3>Автономная работа</h3>
+                <p>Ядро живёт независимо от интерфейса: сбор данных и расчёт правил идут непрерывно,
+                   даже когда экран погашен. Выключили телефон — измерения продолжаются.</p>
+            </article>
+
+            <article class="feature-card">
+                <h3>Честные данные</h3>
+                <p>Главный принцип. Если величина не пришла — это видно. Если источник не проверен —
+                   он помечен. Если частоты не хватило — запись в журнале, а не тихая подмена.
+                   Прибор, которому можно верить, обязан показывать свои слабые места.</p>
+            </article>
+
+            <article class="feature-card">
+                <h3>Событийный контроль</h3>
+                <p>Правила работают с гистерезисом, производными и временными окнами. Система замечает
+                   медленные изменения параметра задолго до того, как он станет критическим.</p>
+            </article>
+
+            <article class="feature-card">
+                <h3>История от секунды до года</h3>
+                <p>Три яруса хранения: свежие данные — подробно, давние — сжато, но без потери общей
+                   картины. Можно разобрать поездку по секундам и увидеть тренд за год.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="models" class="section">
+        <h2>Ядро работает с разными моделями данных</h2>
+        <p class="lead">
+            Модель данных задаёт, что именно измеряется: набор показателей, их единицы и частоты.
+            Меняется модель — меняется отрасль. Ядро при этом остаётся тем же.
+        </p>
+
+        <div class="mod-slider">
+            <button class="scroll-arrow" type="button" aria-label="Предыдущие модули" disabled>&#8249;</button>
+
+            <div class="mod-card">
+                <div class="badge">mod.A</div>
+                <h3>Транспортная телеметрия</h3>
+                <p>Модель данных для легкового и коммерческого транспорта: двигатель, коробка, тормоза,
+                   колёса, температуры, напряжения. Работает с бортовыми шинами и диагностическими
+                   протоколами.</p>
+                <p class="note"><a href="mod-a/">Подробнее о модуле</a></p>
+            </div>
+
+            <button class="scroll-arrow" type="button" aria-label="Следующие модули" disabled>&#8250;</button>
+        </div>
+    </section>
+
+    <section id="extensions" class="section">
+        <h2>Источники и приёмники можно расширять</h2>
+        <p class="lead">
+            Ядро не навязывает, откуда брать данные и куда их отдавать. Источники и приёмники —
+            это отдельные подключаемые модули: одни приводят данные с датчиков и шин, другие
+            показывают, сохраняют или передают результат дальше.
+        </p>
+
+        <div class="features">
+            <article class="feature-card">
+                <h3>Источники</h3>
+                <p>Откуда приходят данные: диагностический адаптер, бортовая шина, внутренний канал
+                   техники, внешние датчики. Источник можно заменить, не трогая ядро.</p>
+            </article>
+
+            <article class="feature-card">
+                <h3>Приёмники</h3>
+                <p>Куда уходит результат: экран устройства, телефон, ноутбук, серверная стойка,
+                   сторонняя программа. Приёмник подключается как расширение.</p>
+            </article>
+
+            <article class="feature-card">
+                <h3>Разработчикам</h3>
+                <p>Система обладает SDK, API и эмуляторами для создания собственных моделей
+                   и расширений. Лицензируется отдельно.</p>
+            </article>
+        </div>
+
+    </section>
+
+    <section id="community" class="section">
+        <h2>Сообщество и база знаний</h2>
+        <p class="lead">
+            Есть телеграм-канал и форум. В канале можно быстро спросить и получить ответ,
+            на форуме — найти разбор похожей проблемы: полезное остаётся там навсегда
+            и не теряется в ленте.
+        </p>
+
+        <div class="cta">
+            <p>Проект в разработке. Следите за новостями — будете знать первыми.</p>
+            <div class="contact-links">
+                <a href="https://t.me/prometrius" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    Телеграм-канал
+                </a>
+                <a href="https://prometrius.com/forum">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    Форум
+                </a>
+                <a href="mailto:info@prometrius.com">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+                    Написать нам
+                </a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container">
+        <div class="studio-brand">Prometrius Lab</div>
+        <div>Prometrius — от <em>pro</em> (вперёд) и <em>metr</em> (измерение): мы строим картину будущего
+             на точных измерениях настоящего и сохраняем их как доказуемое прошлое.</div>
+        <div class="note">© 2026 Prometrius Lab. Все права защищены.</div>
+    </div>
+</footer>
+
+</body>
+</html>

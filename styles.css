@@ -1,0 +1,603 @@
+/* ---------- Шрифты PT (ParaType) ----------
+   Забраны только кириллица и латиница: остальные наборы символов
+   удвоили бы вес, а нам они не нужны.
+   font-display: swap — текст виден сразу, шрифт подменяется по загрузке */
+@font-face {
+    font-family: 'PT Sans';
+    src: url('fonts/pt-sans-v18-cyrillic_cyrillic-ext_latin-regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PT Sans';
+    src: url('fonts/pt-sans-v18-cyrillic_cyrillic-ext_latin-700.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PT Mono';
+    src: url('fonts/pt-mono-v14-cyrillic_cyrillic-ext_latin-regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --bg-dark: #0b1418;
+    --bg-card: #16262e;
+    --accent-teal: #22d3d3;
+    --accent-glow: rgba(34, 211, 211, 0.3);
+    --text-main: #eaf6f7;
+    --text-dim: #9fbcc2;
+    --critical: #ff5c5c;
+    --line: #2b4a54;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'PT Sans', 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+a { color: var(--accent-teal); }
+
+/* ---------- Шапка ---------- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(8, 18, 18, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.header-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.logo-mark {
+    width: 30px;
+    height: 30px;
+    flex: none;
+}
+
+/* Надпись имени — моноширинным: сразу читается как техническая,
+   а лишний межбуквенный отступ не нужен, в моно он уже есть */
+.logo-text {
+    font-family: 'PT Mono', 'PT Sans', monospace;
+    letter-spacing: 0;
+}
+
+/* Подсветка корня имени: только внутри текста, не трогая обёртку */
+.logo-text span { color: var(--accent-teal); }
+
+nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-left: 24px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+nav a:hover { color: var(--accent-teal); }
+
+/* ---------- Переключатель языка ---------- */
+.lang {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.lang a,
+.lang .active {
+    text-decoration: none;
+    padding: 4px 12px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.lang a { color: var(--text-dim); }
+.lang a:hover { color: var(--accent-teal); }
+
+.lang .active {
+    background: var(--accent-teal);
+    color: var(--bg-dark);
+    font-weight: bold;
+}
+
+/* ---------- Общий неподвижный фон ---------- */
+.bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bg-photo {
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    opacity: 1;
+    filter: brightness(1.15) saturate(1.05);
+    z-index: 0;
+}
+
+/* Станки — слева вверху, растворяются вниз и вправо */
+.bg-machines {
+    top: -6%;
+    left: -6%;
+    width: 68%;
+    height: 72%;
+    background-image: url('bg-machines.jpg');
+    -webkit-mask-image: radial-gradient(ellipse 72% 72% at 22% 22%, #000 0%, transparent 74%);
+    mask-image: radial-gradient(ellipse 72% 72% at 22% 22%, #000 0%, transparent 74%);
+}
+
+/* Джип — справа внизу */
+.bg-jeep {
+    bottom: -6%;
+    right: -6%;
+    width: 68%;
+    height: 72%;
+    background-image: url('bg-jeep.jpg');
+    -webkit-mask-image: radial-gradient(ellipse 72% 72% at 78% 78%, #000 0%, transparent 74%);
+    mask-image: radial-gradient(ellipse 72% 72% at 78% 78%, #000 0%, transparent 74%);
+}
+
+/* Схема: графики, маршрут, таблицы. Лежит ВЫШЕ затенения,
+   иначе оно гасит и её */
+.bg-scheme {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.85;
+    z-index: 2;
+}
+
+/* Затемнение поверх фотографий — чтобы текст читался */
+.bg-veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: radial-gradient(ellipse at center,
+        rgba(11, 20, 24, 0.16) 0%, rgba(11, 20, 24, 0.6) 100%);
+}
+
+/* ---------- Первый экран ---------- */
+.hero {
+    padding: 190px 0 120px;
+    text-align: center;
+    position: relative;
+    background: radial-gradient(ellipse 72% 62% at 50% 45%,
+        rgba(11, 20, 24, 0.72) 0%, rgba(11, 20, 24, 0.25) 68%, transparent 100%);
+    overflow: hidden;
+}
+
+.hero h1 {
+    font-size: 58px;
+    margin: 20px 0;
+    line-height: 1.1;
+    position: relative;
+    z-index: 2;
+}
+
+.hero p {
+    font-size: 20px;
+    color: var(--text-dim);
+    max-width: 720px;
+    margin: 0 auto 36px;
+    position: relative;
+    z-index: 2;
+}
+
+.badge {
+    display: inline-block;
+    background: var(--accent-teal);
+    color: var(--bg-dark);
+    font-family: 'PT Mono', monospace;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+}
+
+.btn {
+    display: inline-block;
+    background: var(--accent-teal);
+    color: var(--bg-dark);
+    font-weight: bold;
+    text-decoration: none;
+    padding: 14px 32px;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.btn:hover { box-shadow: 0 0 24px var(--accent-glow); }
+
+.btn-ghost {
+    background: transparent;
+    color: var(--accent-teal);
+    border: 1px solid var(--accent-teal);
+}
+
+.btn-ghost:hover { background: rgba(0, 204, 204, 0.1); }
+
+/* Продолжение первого экрана */
+.hero-continuation {
+    max-width: 800px;
+    margin: 70px auto 0;
+    font-size: 17px;
+    color: var(--text-dim);
+    position: relative;
+    z-index: 2;
+}
+
+.hero-continuation strong { color: var(--text-main); }
+
+/* ---------- Секции ---------- */
+.section {
+    padding: 70px 0;
+    border-top: 1px solid var(--line);
+}
+
+.section h2 {
+    font-size: 36px;
+    margin: 0 0 16px;
+}
+
+.lead {
+    font-size: 18px;
+    color: var(--text-dim);
+    max-width: 820px;
+    margin: 0 0 40px;
+}
+
+.note {
+    color: var(--text-dim);
+    font-size: 15px;
+}
+
+/* ---------- Сравнение ---------- */
+.compare {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.compare-col {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    padding: 32px;
+}
+
+.compare-col h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: var(--text-dim);
+}
+
+.compare-col-accent {
+    border-color: var(--accent-teal);
+}
+
+.compare-col-accent h3 { color: var(--accent-teal); }
+
+.compare-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.compare-col li {
+    padding: 10px 0 10px 26px;
+    position: relative;
+    border-bottom: 1px solid rgba(26, 58, 58, 0.6);
+}
+
+.compare-col li:last-child { border-bottom: none; }
+
+.compare-col li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--text-dim);
+}
+
+.compare-col-accent li::before {
+    content: "✓";
+    color: var(--accent-teal);
+}
+
+/* ---------- Карточки ---------- */
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 40px 0;
+}
+
+.feature-card {
+    background: var(--bg-card);
+    padding: 36px;
+    border-radius: 15px;
+    border: 1px solid var(--line);
+    transition: 0.3s;
+}
+
+.feature-card:hover {
+    border-color: var(--accent-teal);
+    transform: translateY(-5px);
+}
+
+.feature-card h3 {
+    margin-top: 0;
+    font-size: 20px;
+    color: var(--accent-teal);
+}
+
+.feature-card p {
+    color: var(--text-dim);
+    margin-bottom: 0;
+}
+
+/* ---------- Модуль ---------- */
+.mod-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    padding: 40px;
+    max-width: 780px;
+}
+
+.mod-card h3 {
+    margin: 14px 0 10px;
+    font-size: 26px;
+}
+
+.mod-card p {
+    color: var(--text-dim);
+    margin: 0;
+}
+
+/* Прокрутка модулей */
+.mod-slider {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.mod-slider .mod-card { flex: 1; }
+
+.scroll-arrow {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-size: 72px;
+    line-height: 1;
+    padding: 0 12px;
+    cursor: default;
+    user-select: none;
+    opacity: 0.55;
+}
+
+.mod-hint { margin-top: 24px; }
+
+/* ---------- Показ: фото с текстом поверх ---------- */
+.showcase {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    margin: 36px 0;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-card);
+    background-image: linear-gradient(135deg, #1d343c, #16262e);
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--line);
+}
+
+/* Фотографии. Если файла нет — останется градиент, и блок выглядит опрятно */
+.showcase-transport {
+    background-image: url('showcase-transport.jpg'), linear-gradient(135deg, #1d343c, #16262e);
+}
+
+.showcase-industry {
+    background-image: url('showcase-industry.jpg'), linear-gradient(135deg, #1d343c, #16262e);
+}
+
+/* Центр размыт, края резкие: под текстом мягко, по краям видно детали */
+.showcase::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    filter: blur(14px);
+    transform: scale(1.12);
+    -webkit-mask-image: radial-gradient(ellipse 62% 58% at center, #000 0%, transparent 76%);
+    mask-image: radial-gradient(ellipse 62% 58% at center, #000 0%, transparent 76%);
+}
+
+.showcase::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(11, 20, 24, 0.3), rgba(11, 20, 24, 0.78));
+}
+
+.showcase-content {
+    position: relative;
+    z-index: 2;
+    max-width: 660px;
+    padding: 44px;
+    text-align: center;
+}
+
+.showcase-content h3 {
+    font-size: 28px;
+    margin: 0 0 14px;
+}
+
+.showcase-content p {
+    color: var(--text-dim);
+    margin: 0;
+}
+
+/* ---------- Числа ---------- */
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.metric {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    padding: 32px;
+    text-align: center;
+}
+
+.metric-value {
+    font-size: 52px;
+    font-weight: bold;
+    color: var(--accent-teal);
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.metric-label {
+    color: var(--text-dim);
+    font-size: 15px;
+}
+
+/* ---------- Призыв ---------- */
+.cta {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.cta p {
+    color: var(--text-dim);
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+/* ---------- Контакты ссылками ---------- */
+.contact-links {
+    display: flex;
+    gap: 28px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.contact-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent-teal);
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.contact-links a:hover { color: var(--text-main); }
+
+.contact-links svg {
+    width: 20px;
+    height: 20px;
+    flex: none;
+}
+
+/* ---------- Подвал ---------- */
+footer {
+    border-top: 1px solid var(--line);
+    padding: 50px 0;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 15px;
+}
+
+.studio-brand {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--accent-teal);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+footer .note { margin-top: 8px; }
+
+/* ---------- Мелкие экраны ---------- */
+@media (max-width: 700px) {
+    .hero { padding: 150px 0 90px; }
+    .hero h1 { font-size: 38px; }
+    .section h2 { font-size: 28px; }
+    nav a { margin-left: 14px; font-size: 12px; }
+}

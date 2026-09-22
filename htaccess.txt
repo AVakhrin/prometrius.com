@@ -1,0 +1,29 @@
+# Правила для сайта Prometrius.
+# На сервере этот файл должен называться .htaccess (с точкой впереди, без .txt).
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # --- Домен prometrius.ru: перенаправляем на основной prometrius.com ---
+    # Русская версия живёт в корне основного домена, поэтому путь сохраняем как есть.
+    RewriteCond %{HTTP_HOST} ^(www\.)?prometrius\.ru$ [NC]
+    RewriteRule ^(.*)$ https://prometrius.com/$1 [R=301,L]
+
+    # --- Основной домен: всегда HTTPS ---
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+    # --- Основной домен: убираем www ---
+    RewriteCond %{HTTP_HOST} ^www\.prometrius\.com$ [NC]
+    RewriteRule ^(.*)$ https://prometrius.com/$1 [R=301,L]
+</IfModule>
+
+# Кэширование статики — страницы будут открываться быстрее.
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 month"
+</IfModule>

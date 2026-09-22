@@ -1,0 +1,34 @@
+# Конфиг Nginx для сайта Prometrius.
+# Положить на сервере в /etc/nginx/sites-available/prometrius
+# (если на сервере нет каталога sites-available — используй /etc/nginx/conf.d/prometrius.conf)
+
+# --- Основной домен ---
+server {
+    listen 80;
+    listen [::]:80;
+    server_name prometrius.com www.prometrius.com;
+
+    root /var/www/prometrius;
+    index index.html;
+
+    # Страницы и картинки
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Кэш статики: браузер не будет тянуть одно и то же каждый раз
+    location ~* \.(css|js|jpg|jpeg|png|svg|ico|woff|woff2)$ {
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+    }
+}
+
+# --- Российский домен: перенаправляем на основной ---
+# Русская версия живёт в корне основного домена, поэтому путь сохраняем как есть.
+server {
+    listen 80;
+    listen [::]:80;
+    server_name prometrius.ru www.prometrius.ru;
+
+    return 301 https://prometrius.com$request_uri;
+}
