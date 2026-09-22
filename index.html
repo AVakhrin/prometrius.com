@@ -58,53 +58,56 @@
     <div class="bg-photo bg-jeep"></div>
 
     <svg class="bg-scheme" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
-        <g stroke="#22d3d3" stroke-width="1" opacity="0.18">
+        <!-- Инженерная сетка -->
+        <g stroke="#22d3d3" stroke-width="1" opacity="0.12">
             <path d="M0 150H1600M0 300H1600M0 450H1600M0 600H1600M0 750H1600"/>
             <path d="M200 0V900M400 0V900M600 0V900M800 0V900M1000 0V900M1200 0V900M1400 0V900"/>
         </g>
 
-        <!-- Графики: отрезки между замерами, как в настоящем графике.
-             Точки-узлы — вот что отличает данные от простого узора -->
-        <g fill="none" stroke="#22d3d3" stroke-width="2" opacity="0.42">
-            <path d="M40 660 L180 620 L320 510 L460 520 L600 640 L740 600 L880 520 L1020 430 L1160 420 L1300 490"/>
-            <path d="M40 740 L200 700 L360 660 L520 690 L680 700 L840 630 L1000 590 L1160 600 L1320 560 L1460 590"/>
-        </g>
-        <g fill="#22d3d3" opacity="0.5">
-            <circle cx="180" cy="620" r="4"/>
-            <circle cx="320" cy="510" r="4"/>
-            <circle cx="460" cy="520" r="4"/>
-            <circle cx="600" cy="640" r="4"/>
-            <circle cx="740" cy="600" r="4"/>
-            <circle cx="880" cy="520" r="4"/>
-            <circle cx="1020" cy="430" r="4"/>
-            <circle cx="1160" cy="420" r="4"/>
-            <circle cx="1300" cy="490" r="4"/>
-            <circle cx="200" cy="700" r="4"/>
-            <circle cx="360" cy="660" r="4"/>
-            <circle cx="520" cy="690" r="4"/>
-            <circle cx="680" cy="700" r="4"/>
-            <circle cx="840" cy="630" r="4"/>
-            <circle cx="1000" cy="590" r="4"/>
-            <circle cx="1160" cy="600" r="4"/>
-            <circle cx="1320" cy="560" r="4"/>
+        <!-- Ось: бледная прерывистая, на грани видимости -->
+        <path d="M0 450H1600" fill="none" stroke="#eaf6f7"
+              stroke-width="1" stroke-dasharray="10 14" opacity="0.15"/>
+
+        <!-- Сигналы: разные частоты и модуляции, разной толщины, без точек -->
+        <g fill="none" stroke="#22d3d3">
+            <path opacity="0.36" stroke-width="3.5"
+                  d="M-60 450C70 350 190 350 320 450S570 550 700 450S950 350 1080 450S1330 550 1460 450S1710 350 1840 450"/>
+            <path opacity="0.30" stroke-width="2"
+                  d="M-40 470C40 420 120 420 200 470S360 520 440 470S600 420 680 470S840 520 920 470S1080 420 1160 470S1320 520 1400 470S1560 420 1640 470"/>
+            <path opacity="0.24" stroke-width="1.4"
+                  d="M-20 460C5 434 35 434 60 460S110 486 135 460S185 434 210 460S260 486 285 460S335 434 360 460S410 486 435 460S485 434 510 460S560 486 585 460S635 434 660 460S710 486 735 460S785 434 810 460S860 486 885 460S935 434 960 460S1010 486 1035 460S1085 434 1110 460S1160 486 1185 460S1235 434 1260 460S1310 486 1335 460S1385 434 1410 460S1460 486 1485 460S1535 434 1560 460"/>
+            <path opacity="0.28" stroke-width="2.4"
+                  d="M-30 620C40 606 80 606 150 620S230 616 300 620S380 570 450 620S530 670 600 620S680 548 750 620S830 692 900 620S980 526 1050 620S1130 714 1200 620"/>
         </g>
 
-        <g fill="none" stroke="#22d3d3" stroke-width="3" opacity="0.45">
-            <path d="M960 110L1070 190L1170 170L1230 270L1350 310L1420 430"/>
+        <!-- Маршрут: сдвинут вправо и вверх, пункты с разным населением и подписями -->
+        <g fill="none" stroke="#22d3d3" stroke-width="3" opacity="0.32">
+            <path d="M1050 210L1160 280L1270 260L1330 350L1450 390L1530 500"/>
         </g>
-        <g fill="#22d3d3" opacity="0.55">
-            <circle cx="960" cy="110" r="6"/>
-            <circle cx="1170" cy="170" r="6"/>
-            <circle cx="1350" cy="310" r="6"/>
-            <circle cx="1420" cy="430" r="6"/>
+        <g fill="#22d3d3" opacity="0.40">
+            <circle cx="1050" cy="210" r="11"/>
+            <circle cx="1160" cy="280" r="8"/>
+            <circle cx="1270" cy="260" r="5"/>
+            <circle cx="1330" cy="350" r="7"/>
+            <circle cx="1450" cy="390" r="4"/>
+            <circle cx="1530" cy="500" r="9"/>
+        </g>
+        <g fill="#22d3d3" opacity="0.28" font-family="'PT Mono', monospace" font-size="15">
+            <text x="1068" y="205">Париж</text>
+            <text x="1178" y="275">Мадрид</text>
+            <text x="1288" y="255">Гранада</text>
+            <text x="1348" y="345">Марракеш</text>
+            <text x="1468" y="385">Дахла</text>
+            <text x="1520" y="495" text-anchor="end">Дакар</text>
         </g>
 
-        <g fill="#22d3d3" opacity="0.22">
-            <rect x="60" y="120" width="300" height="8" rx="4"/>
-            <rect x="60" y="142" width="240" height="8" rx="4"/>
-            <rect x="60" y="164" width="280" height="8" rx="4"/>
-            <rect x="60" y="186" width="200" height="8" rx="4"/>
-            <rect x="60" y="208" width="260" height="8" rx="4"/>
+        <!-- Строки таблицы данных -->
+        <g fill="#22d3d3" opacity="0.15">
+            <rect x="60" y="120" width="300" height="7" rx="3.5"/>
+            <rect x="60" y="142" width="240" height="7" rx="3.5"/>
+            <rect x="60" y="164" width="280" height="7" rx="3.5"/>
+            <rect x="60" y="186" width="200" height="7" rx="3.5"/>
+            <rect x="60" y="208" width="260" height="7" rx="3.5"/>
         </g>
     </svg>
 
