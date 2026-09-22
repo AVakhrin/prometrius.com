@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 64 44"
+   width="64"
+   height="44"
+   role="img"
+   aria-label="Prometrius"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="logo-monogram-inline_cont.svg"
+   inkscape:version="1.4.4 (1:1.4.4+202605061436+dcaf3e7d9e)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="9.1590909"
+     inkscape:cx="28.769231"
+     inkscape:cy="31.334988"
+     inkscape:window-width="1920"
+     inkscape:window-height="1008"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <path
+     d="M 15.438055,26.619793 V 12.309871 q 0,-1.358075 0.774741,-2.059899 1.020835,-0.9023458 2.242192,-0.9023458 1.048179,0 2.406254,1.0117208 l -0.802085,1.294273 q -0.984377,-0.656251 -1.695315,-0.656251 -0.647137,0 -0.647137,1.540367 v 14.309922 q 0,1.358075 -0.774741,2.059899 -1.002606,0.902346 -2.242191,0.902346 -1.048179,0 -2.406255,-1.011721 l 0.802085,-1.294273 q 0.984377,0.656251 1.695316,0.656251 0.647136,0 0.647136,-1.540367 z"
+     id="text1"
+     style="font-weight:bold;font-size:18.6667px;font-family:'PT Mono', monospace;-inkscape-font-specification:'PT Mono, monospace, Bold';fill:#22d3d3;stroke:#22d3d3;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill"
+     aria-label="∫" />
+  <path
+     d="m 24.373549,15.514256 v 4.277343 h 1.18164 q 1.416016,0 1.982422,-0.478515 0.576172,-0.478516 0.576172,-1.660157 0,-1.18164 -0.576172,-1.660156 -0.566406,-0.478515 -1.982422,-0.478515 z m -2.88086,-2.421875 h 3.955078 q 3.017578,0 4.335938,1.074218 1.328125,1.074219 1.328125,3.486328 0,2.41211 -1.328125,3.486329 -1.31836,1.074218 -4.335938,1.074218 h -1.074218 v 5.458985 h -2.88086 z m 12.65625,14.580078 V 13.092381 h 2.88086 v 12.041015 h 6.162109 v 2.539063 z"
+     id="text2"
+     style="font-weight:700;font-size:20px;font-family:'PT Mono', monospace;fill:#eaf6f7"
+     aria-label="PL" />
+</svg>

@@ -4,11 +4,11 @@
     <text x="2" y="38" font-size="40" font-family="'PT Mono', monospace" font-weight="400" fill="#22d3d3" stroke="#22d3d3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" paint-order="stroke fill">∫</text>
 
     <!-- Строка первая: буквы толще и придвинуты к знаку -->
-    <text x="19" y="25" font-size="22" font-family="'PT Mono', monospace" font-weight="700" letter-spacing="0.06em">
+    <text x="18" y="30" font-size="22" font-family="'PT Mono', monospace" font-weight="700" letter-spacing="0.06em">
       <tspan fill="#eaf6f7">PRO</tspan><tspan fill="#22d3d3">METR</tspan><tspan fill="#eaf6f7">IUS</tspan>
     </text>
 
     <!-- Строка вторая -->
-    <text x="19" y="46" font-size="22" font-family="'PT Mono', monospace" font-weight="700" fill="#9fbcc2" letter-spacing="0.06em">LAB</text>
+    <text x="18" y="46" font-size="22" font-family="'PT Mono', monospace" font-weight="700" fill="#9fbcc2" letter-spacing="0.06em">LAB</text>
   </g>
 </svg>
