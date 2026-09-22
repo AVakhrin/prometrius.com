@@ -116,14 +116,9 @@
 <header>
     <div class="header-container">
         <a class="logo" href="./">
-            <!-- The integral sign is inlined on purpose: this way it takes the PT Mono
-                 font from the site's own styles, not whatever a visitor has installed -->
-            <svg class="logo-mark" viewBox="0 0 30 44" width="24" height="35" aria-hidden="true">
-                <text x="0" y="37" font-size="40" font-family="'PT Mono', monospace" font-weight="400"
-                      fill="#22d3d3" stroke="#22d3d3" stroke-width="1.7" stroke-linecap="round"
-                      stroke-linejoin="round" paint-order="stroke fill">∫</text>
-            </svg>
-            <span class="logo-text">PRO<span>METR</span>IUS</span>
+            <!-- One-line outline mark as a separate file:
+                 independent of both fonts and page markup -->
+            <img class="logo-mark" src="../logo-inline_cont.svg" alt="Prometrius Lab">
         </a>
         <nav>
             <a href="#core">Core</a>

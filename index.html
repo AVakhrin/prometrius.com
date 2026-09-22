@@ -116,14 +116,9 @@
 <header>
     <div class="header-container">
         <a class="logo" href="./">
-            <!-- Знак интеграла вписан прямо в страницу: так он берёт шрифт PT Mono
-                 из стилей сайта, а не зависит от того, что стоит у посетителя -->
-            <svg class="logo-mark" viewBox="0 0 30 44" width="24" height="35" aria-hidden="true">
-                <text x="0" y="37" font-size="40" font-family="'PT Mono', monospace" font-weight="400"
-                      fill="#22d3d3" stroke="#22d3d3" stroke-width="1.7" stroke-linecap="round"
-                      stroke-linejoin="round" paint-order="stroke fill">∫</text>
-            </svg>
-            <span class="logo-text">PRO<span>METR</span>IUS</span>
+            <!-- Однострочный контурный знак отдельным файлом:
+                 не зависит ни от шрифтов, ни от разметки страницы -->
+            <img class="logo-mark" src="logo-inline_cont.svg" alt="Prometrius Lab">
         </a>
         <nav>
             <a href="#core">Ядро</a>
