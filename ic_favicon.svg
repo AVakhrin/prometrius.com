@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Prometrius">
-  <rect width="128" height="128" rx="28" fill="#0b1418"/>
-  <rect width="126" height="126" x="1" y="1" rx="27" fill="none" stroke="#22d3d3" stroke-opacity="0.25" stroke-width="1.5"/>
-  <g transform="translate(34, 28)">
-    <text x="0" y="52" font-size="62" font-family="'PT Mono', monospace" font-weight="400" fill="#22d3d3" stroke="#22d3d3" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" paint-order="stroke fill">∫</text>
-    <text x="11" y="31" font-size="26" font-family="'PT Mono', monospace" font-weight="400" fill="#eaf6f7">P</text>
-    <text x="11" y="55" font-size="26" font-family="'PT Mono', monospace" font-weight="400" fill="#9fbcc2">L</text>
-  </g>
-</svg>
