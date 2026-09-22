@@ -1,0 +1,42 @@
+# Автодеплой сайта на сервер после отправки в GitHub.
+#
+# Что нужно один раз настроить (подробности в HANDOVER или в переписке):
+#   секреты репозитория — Settings → Secrets and variables → Actions:
+#     SSH_PRIVATE_KEY  — закрытый ключ доступа к серверу
+#     SSH_HOST         — адрес сервера
+#     SSH_USER         — пользователь на сервере
+#
+# Серверный default.conf в заливку не входит: он живёт на сервере,
+# а в репозитории его нет намеренно.
+
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Забрать исходники
+        uses: actions/checkout@v4
+
+      - name: Подготовить ключ доступа
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Залить сайт на сервер
+        run: |
+          rsync -av --delete \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=yes" \
+            --exclude .git \
+            --exclude .github \
+            --exclude .gitignore \
+            --exclude default.conf \
+            ./ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/prometrius.com/"
