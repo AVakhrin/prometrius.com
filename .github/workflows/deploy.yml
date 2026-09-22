@@ -39,4 +39,5 @@ jobs:
             --exclude .github \
             --exclude .gitignore \
             --exclude default.conf \
+            --exclude forum \
             ./ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/prometrius.com/"
