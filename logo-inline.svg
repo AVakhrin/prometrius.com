@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 44" width="310" height="44" role="img" aria-label="Prometrius Lab">
-  <g transform="translate(12, 6)">
-    <text x="0" y="25" font-size="31" font-family="'PT Mono', monospace" font-weight="400" fill="#22d3d3" stroke="#22d3d3" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" paint-order="stroke fill">∫</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 44" width="300" height="44" role="img" aria-label="Prometrius Lab">
+  <g transform="translate(10, 6)">
+    <text x="0" y="25" font-size="28" font-family="'PT Mono', monospace" font-weight="400" fill="#22d3d3" stroke="#22d3d3" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" paint-order="stroke fill">∫</text>
 
-    <text x="16" y="23" font-size="20" font-family="'PT Mono', monospace" font-weight="400" letter-spacing="0.08em">
+    <text x="14" y="23" font-size="20" font-family="'PT Mono', monospace" font-weight="700" letter-spacing="0.05em">
       <tspan fill="#eaf6f7">PRO</tspan><tspan fill="#22d3d3">METR</tspan><tspan fill="#eaf6f7">IUS</tspan><tspan fill="#9fbcc2"> LAB</tspan>
     </text>
   </g>

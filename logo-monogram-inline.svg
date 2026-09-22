@@ -1,6 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 44" width="64" height="44" role="img" aria-label="Prometrius">
   <g transform="translate(10, 6)">
-    <text x="0" y="25" font-size="31" font-family="'PT Mono', monospace" font-weight="400" fill="#22d3d3" stroke="#22d3d3" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" paint-order="stroke fill">∫</text>
-    <text x="16" y="23" font-size="20" font-family="'PT Mono', monospace" font-weight="400" fill="#eaf6f7">PL</text>
+    <text x="0" y="25" font-size="28" font-family="'PT Mono', monospace" font-weight="400" fill="#22d3d3" stroke="#22d3d3" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" paint-order="stroke fill">∫</text>
+
+    <!-- Буквы толще и придвинуты к знаку -->
+    <text x="13" y="23" font-size="20" font-family="'PT Mono', monospace" font-weight="700" fill="#eaf6f7">PL</text>
   </g>
 </svg>
