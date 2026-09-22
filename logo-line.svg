@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 120" width="700" height="120" role="img" aria-label="Prometrius Lab">
+    <!-- Горизонтальный вариант: знак в одну строку с названием.
+         Для узких мест — шапка письма, визитка, подпись в почте. -->
+
+    <!-- Знак интеграла -->
+    <path d="M52 30 C 52 18, 40 16, 35 28 C 31 37, 30 48, 28 60 L 24 88 C 22 100, 19 110, 12 116 C 5 122, -3 118, -1 108"
+          fill="none" stroke="#22d3d3" stroke-width="7" stroke-linecap="round"/>
+
+    <!-- PROMETRIUS -->
+    <text x="68" y="72" font-family="'PT Mono', 'Courier New', monospace" font-size="38" font-weight="bold" fill="#0b1418">PRO</text>
+    <text x="137" y="72" font-family="'PT Mono', 'Courier New', monospace" font-size="38" font-weight="bold" fill="#22d3d3">METR</text>
+    <text x="228" y="72" font-family="'PT Mono', 'Courier New', monospace" font-size="38" font-weight="bold" fill="#0b1418">IUS</text>
+    <text x="318" y="72" font-family="'PT Mono', 'Courier New', monospace" font-size="38" font-weight="bold" fill="#0b1418">LAB</text>
+</svg>

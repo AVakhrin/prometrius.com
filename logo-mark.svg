@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 200" width="160" height="200" role="img" aria-label="Prometrius">
+    <!-- Знак: интеграл с пределами P и L.
+         Самый компактный вариант — читается даже в самых мелких размерах.
+         Пределы набраны курсивом, как в настоящей математике. -->
+
+    <!-- Знак интеграла -->
+    <path d="M104 46 C 104 32, 90 30, 84 44 C 80 54, 79 66, 77 78 L 72 112 C 70 126, 66 138, 58 146 C 50 154, 40 150, 42 138"
+          fill="none" stroke="#22d3d3" stroke-width="9" stroke-linecap="round"/>
+
+    <!-- Верхний предел: P — Prometrius, Predictive -->
+    <text x="112" y="56" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-style="italic" font-weight="bold" fill="#0b1418">P</text>
+
+    <!-- Нижний предел: L — Lab, Local, Log -->
+    <text x="52" y="192" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-style="italic" font-weight="bold" fill="#0b1418">L</text>
+</svg>
