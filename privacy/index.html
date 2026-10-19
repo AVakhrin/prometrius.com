@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Политика конфиденциальности и условия — Prometrius Link: OBD2</title>
+    <meta name="description" content="Политика конфиденциальности, обоснование системных разрешений и условия использования мобильного приложения Prometrius Link: OBD2 (PL.OBD2).">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .legal-page { padding: 50px 0 80px; }
+        .legal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: 6px;
+            padding: 36px;
+            margin-top: 24px;
+        }
+        .legal-card h2 {
+            color: var(--accent-teal);
+            font-size: 1.25rem;
+            margin: 28px 0 12px;
+            border-bottom: 1px solid var(--border-line);
+            padding-bottom: 6px;
+        }
+        .legal-card h2:first-of-type { margin-top: 0; }
+        .legal-card p, .legal-card li {
+            color: var(--text-dim);
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+        .legal-card ul { padding-left: 20px; margin: 10px 0; }
+        .legal-card li { margin-bottom: 8px; }
+        .legal-card strong { color: var(--text-main); }
+        .perm-tag {
+            font-family: var(--font-mono);
+            background: var(--bg-input);
+            border: 1px solid var(--border-line);
+            color: var(--accent-teal);
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <a href="/mod_a/" style="text-decoration:none; display:flex; align-items:center; gap:12px; color:#fff;">
+                    <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M124,16L388,16A108,108 0,0 1,496 124L496,388A108,108 0,0 1,388 496L124,496A108,108 0,0 1,16 388L16,124A108,108 0,0 1,124 16z" fill="#0C394A" stroke="#22d3d3" stroke-width="14"/>
+                        <path d="M245,315 L365,220 L267,335 Z" fill="#22d3d3"/>
+                        <circle cx="256" cy="325" r="18" fill="#FFFFFF"/>
+                    </svg>
+                    Prometrius Link: OBD2
+                </a>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 0.8rem;">
+                <a href="/privacy/" style="color:var(--accent-teal); font-weight:bold;">RU</a> | <a href="/en/privacy/" style="color:var(--text-dim);">EN</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="legal-page">
+        <div class="container">
+            <div class="section-tag">// Юридическая информация</div>
+            <h1 class="section-title">Политика конфиденциальности и Условия использования</h1>
+            <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 6px;">
+                Дата вступления в силу: 19 октября 2026 г. | Редакция: 2.4
+            </p>
+
+            <div class="legal-card">
+                <h2>1. Общие положения</h2>
+                <p>
+                    Настоящая Политика конфиденциальности распространяется на программное обеспечение для ЭВМ <strong>«Prometrius Link: OBD2»</strong> (сокращенные наименования: <strong>PL.OBD2</strong>, <strong>Prometrius OBD2</strong>), разработанное проектом <strong>Prometrius Lab</strong> (заявка на регистрацию программы для ЭВМ в Роспатенте № 2026607449).
+                </p>
+                <p>
+                    Приложение представляет собой локальный программный телематический шлюз, функционирующий на архитектуре <strong>Local-First</strong> (локальная обработка без внешних облачных серверов). Разработчики приложения не осуществляют сбор, хранение, продажу или передачу пользовательских данных или телеметрии на удаленные сервера компании.
+                </p>
+
+                <h2>2. Обработка диагностических данных автомобиля и VIN</h2>
+                <p>
+                    Приложение взаимодействует с электронными блоками управления (ЭБУ) автомобиля исключительно через подключенный пользователем адаптер (ELM327 или совместимый):
+                </p>
+                <ul>
+                    <li><strong>Обезличенный дескриптор модели (WMI + VDS):</strong> В соответствии с требованиями Федерального закона № 152-ФЗ «О персональных данных» приложение <strong>не сохраняет и не передает индивидуальный серийный номер автомобиля (VIS)</strong>. Из ответа команды <code>0902</code> считываются исключительно первые 9 знаков VIN-кода, включающие WMI (3 знака производителя) и VDS (6 знаков описания модели, типа двигателя и трансмиссии). Оставшиеся 8 знаков серийного номера (VIS) отсекаются в оперативной памяти. Первые 9 знаков служат обезличенным техническим идентификатором модели (Model Descriptor), не позволяющим идентифицировать физическое лицо или конкретный экземпляр ТС.</li>
+                    <li><strong>Локальное хранение:</strong> Все параметры телеметрии, сохраненные паспорта устройств и логи сессий сохраняются исключительно во внутренней изолированной памяти приложения (<code>filesDir</code> хост-устройства) и удаляются при удалении приложения пользователем. Экспорт файлов наружу осуществляется только по явному запросу пользователя через системный Storage Access Framework (SAF) или Android FileProvider.</li>
+                </ul>
+
+                <h2>3. Обоснование запрашиваемых разрешений Android</h2>
+                <p>
+                    Приложение запрашивает минимально необходимый набор разрешений, строго обусловленный аппаратными функциями диагностического шлюза:
+                </p>
+                <ul>
+                    <li><span class="perm-tag">BLUETOOTH_SCAN</span> (с флагом <code>android:usesPermissionFlags="neverForLocation"</code>) и <span class="perm-tag">BLUETOOTH_CONNECT</span> — необходимы на Android 12+ для обнаружения и соединения с диагностическими Bluetooth-адаптерами. Флаг <code>neverForLocation</code> гарантирует операционной системе, что данные Bluetooth-сканирования не используются для геолокации.</li>
+                    <li><span class="perm-tag">ACCESS_FINE_LOCATION</span> и <span class="perm-tag">ACCESS_COARSE_LOCATION</span> — используются исключительно: 1) на Android 9–11 для работы классического поиска Bluetooth устройств (требование ОС); 2) на Android 10+ для считывания физического MAC-адреса (BSSID) точки доступа Wi-Fi адаптера ELM327. Это необходимо для однозначного различения адаптеров, имеющих одинаковый заводской IP-адрес 192.168.0.10:35000. <strong>Приложение не отслеживает, не логирует и не передает географические координаты пользователя.</strong></li>
+                    <li><span class="perm-tag">FOREGROUND_SERVICE</span> и <span class="perm-tag">FOREGROUND_SERVICE_CONNECTED_DEVICE</span> — требуются для поддержания непрерывного обмена данными с внешним автомобильным адаптером в фоновом режиме, в том числе при выключенном экране.</li>
+                    <li><span class="perm-tag">WAKE_LOCK</span> — предотвращает засыпание процессора устройства во время активных диагностических сессий и трансляции телеметрии.</li>
+                    <li><span class="perm-tag">INTERNET</span> — используется для работы встроенного легковесного Rust-сервера интерфейса на локальной петле (<code>127.0.0.1</code>), а также для сетевой трансляции потоков TCP/UDP в локальной сети автомобиля или через VPN-оверлеи (Tailscale).</li>
+                </ul>
+
+                <h2>4. Криптография и безопасность устройства</h2>
+                <p>
+                    При первом запуске приложение создает пару асимметричных криптографических ключей <strong>RSA-2048</strong> внутри аппаратного хранилища <strong>Android KeyStore</strong>.
+                </p>
+                <p>
+                    Приватный ключ является неэкспортируемым и никогда не покидает аппаратный защищенный модуль устройства. Открытый ключ (Public Key PEM) публикуется в теле Паспорта связки и используется исключительно для шифрования персональных конфигурационных планов опроса (<code>.plp</code>), гарантируя, что созданный файл плана может быть расшифрован только на данном конкретном хост-устройстве.
+                </p>
+
+                <h2>5. Отказ от ответственности (Безопасность автомобиля)</h2>
+                <p>
+                    Приложение предоставляется на условиях «КАК ЕСТЬ» («AS IS»). Пользователь осознает, что подключение оборудования к диагностическому разъему OBD-II автомобиля сопряжено с взаимодействием с критическими бортовыми системами. Разработчики не несут ответственности за любые повреждения электронных блоков управления, ошибки шины данных, механические неисправности транспортного средства, а также дорожно-транспортные происшествия, возникшие в процессе использования приложения.
+                </p>
+
+                <h2>6. Контактные данные разработчика</h2>
+                <p>
+                    По всем вопросам, связанным с настоящей Политикой или функционированием шлюза Prometrius Link, обращайтесь по адресу электронной почты:<br>
+                    <strong>Email:</strong> <a href="mailto:support@prometrius.com">support@prometrius.com</a><br>
+                    <strong>Официальный сайт:</strong> <a href="https://prometrius.com">https://prometrius.com</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                © 2026 <strong>Prometrius Lab</strong>. Проект <strong>Prometrius Link: OBD2 (PL.OBD2)</strong>.<br>
+                Заявка Роспатента № 2026607449.
+            </div>
+            <div style="text-align: right;">
+                <a href="/privacy/">Политика конфиденциальности</a> | <a href="/en/privacy/">Privacy Policy (EN)</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

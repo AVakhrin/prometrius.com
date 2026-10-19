@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROMETRIUS — OBD PID Scheduler</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=PT+Mono&family=PT+Sans:wght@400;700&display=swap');
+
+        :root {
+            --bg-dark: #0b1418;
+            --bg-card: #16262e;
+            --bg-input: #0f1d24;
+            --bg-hover: #1c323d;
+            --bg-header: #101c22;
+            --accent-teal: #22d3d3;
+            --accent-glow: rgba(34, 211, 211, 0.25);
+            --text-main: #eaf6f7;
+            --text-dim: #9fbcc2;
+            --border-line: #2b4a54;
+            --danger: #ff5c5c;
+            --danger-bg: rgba(255, 92, 92, 0.15);
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PT Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ---------- Custom Scrollbars ---------- */
+        *::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        *::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        *::-webkit-scrollbar-thumb {
+            background: var(--border-line);
+            border-radius: 4px;
+        }
+        *::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-teal);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: var(--bg-dark);
+            overflow: hidden;
+        }
+
+        /* ---------- Header ---------- */
+        .header {
+            background: var(--bg-header);
+            border-bottom: 1px solid var(--border-line);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'PT Mono', monospace;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-text span {
+            color: var(--accent-teal);
+        }
+
+        .subtitle {
+            font-size: 0.8em;
+            color: var(--text-dim);
+            font-family: 'PT Sans', sans-serif;
+            font-weight: normal;
+        }
+
+        /* ---------- Config Panel ---------- */
+        .config-panel {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-line);
+            padding: 10px 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+
+        .config-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .config-item label {
+            font-weight: 700;
+            font-size: 0.85em;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .config-item input,
+        .config-item select {
+            background: var(--bg-input);
+            border: 1px solid var(--border-line);
+            color: var(--accent-teal);
+            font-family: 'PT Mono', monospace;
+            font-weight: bold;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            width: 90px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .config-item input:focus,
+        .config-item select:focus {
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .btn-apply {
+            padding: 7px 18px;
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+        }
+
+        .btn-apply:hover {
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-1px);
+        }
+
+        .btn-passport {
+            background: transparent;
+            border: 1px solid var(--accent-teal);
+            color: var(--accent-teal);
+        }
+
+        .btn-passport:hover {
+            background: var(--accent-glow);
+        }
+
+        /* ---------- Main Content Grid ---------- */
+        .content {
+            display: grid;
+            grid-template-columns: 55% 6px 1fr;
+            gap: 0;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .divider {
+            width: 6px;
+            background: var(--bg-dark);
+            cursor: col-resize;
+            user-select: none;
+            transition: background 0.2s;
+            border-left: 1px solid var(--border-line);
+            border-right: 1px solid var(--border-line);
+        }
+
+        .divider:hover, .divider.active {
+            background: var(--accent-teal);
+        }
+
+        /* ---------- Left Panel: Full Catalog ---------- */
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: var(--bg-dark);
+        }
+
+        .left-panel .section {
+            flex: 1;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ---------- Right Panel: Budget + Schedule ---------- */
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+            padding: 12px;
+            gap: 12px;
+            background: var(--bg-dark);
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--bg-header);
+            border-bottom: 1px solid var(--border-line);
+            color: var(--text-main);
+            padding: 10px 14px;
+            font-weight: 700;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header span:first-child {
+            color: var(--accent-teal);
+        }
+
+        .section-content {
+            flex: 1;
+            overflow: auto;
+            font-size: 0.85em;
+        }
+
+        /* ---------- Tables ---------- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--bg-header);
+            position: sticky;
+            top: 0;
+            border-bottom: 2px solid var(--border-line);
+            z-index: 10;
+        }
+
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        th {
+            font-weight: 700;
+            font-size: 0.78em;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            transition: background 0.15s;
+        }
+
+        tbody tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .pid-id {
+            font-family: 'PT Mono', monospace;
+            font-weight: bold;
+            color: var(--accent-teal);
+        }
+
+        .pid-input {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .pid-input input {
+            width: 65px;
+            padding: 4px 6px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-line);
+            color: var(--text-main);
+            font-family: 'PT Mono', monospace;
+            border-radius: 4px;
+            font-size: 0.85em;
+            outline: none;
+        }
+
+        .pid-input input:focus {
+            border-color: var(--accent-teal);
+        }
+
+        .btn-add, .btn-remove {
+            padding: 4px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .btn-add {
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+        }
+
+        .btn-add:hover {
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .btn-remove {
+            background: var(--danger-bg);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .btn-remove:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* ---------- Schedule Rows ---------- */
+        .cycle-row {
+            display: grid;
+            grid-template-columns: 60px 70px 60px 1fr;
+            gap: 6px;
+            padding: 7px 10px;
+            border-bottom: 1px solid var(--border-line);
+            align-items: center;
+            font-size: 0.8em;
+            font-family: 'PT Mono', monospace;
+        }
+
+        .cycle-row.init-row {
+            background: rgba(245, 158, 11, 0.12);
+            border-left: 3px solid var(--warning);
+        }
+
+        .cycle-row:hover {
+            background: var(--bg-hover);
+        }
+
+        /* ---------- Budget Items ---------- */
+        .budget-item {
+            padding: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: 8px;
+        }
+
+        .budget-label {
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .budget-label span:first-child {
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .budget-label span:last-child {
+            color: var(--accent-teal);
+            font-family: 'PT Mono', monospace;
+            font-weight: bold;
+        }
+
+        .budget-bar {
+            width: 100%;
+            height: 16px;
+            background: var(--bg-input);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border-line);
+        }
+
+        .budget-fill {
+            height: 100%;
+            background: var(--accent-teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-dark);
+            font-size: 0.7em;
+            font-weight: bold;
+            font-family: 'PT Mono', monospace;
+            transition: width 0.3s;
+        }
+
+        .budget-fill.warning {
+            background: var(--warning);
+        }
+
+        .budget-fill.danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .breakdown {
+            font-size: 0.75em;
+            color: var(--text-dim);
+            margin-top: 8px;
+            line-height: 1.5;
+            font-family: 'PT Mono', monospace;
+        }
+
+        /* ---------- Controls ---------- */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 700;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .btn-danger {
+            background: transparent;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            color: white;
+            box-shadow: 0 0 12px rgba(255, 92, 92, 0.3);
+        }
+
+        .btn-primary {
+            background: var(--accent-teal);
+            color: var(--bg-dark);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-1px);
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.85em;
+            z-index: 1000;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-line);
+            backdrop-filter: blur(8px);
+        }
+
+        .notification.success {
+            background: rgba(34, 197, 94, 0.9);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .notification.error {
+            background: rgba(255, 92, 92, 0.95);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-dim);
+            padding: 30px 15px;
+            font-size: 0.85em;
+        }
+
+        .badge-init {
+            background: var(--warning);
+            color: var(--bg-dark);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            font-weight: bold;
+            font-family: 'PT Mono', monospace;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo-text">
+            <span>PROMETRIUS</span> OBD2 PID Scheduler
+        </div>
+        <div class="subtitle">Планировщик опроса параметров CAN-шины автомобиля</div>
+    </div>
+
+    <div class="config-panel">
+        <div class="config-item">
+            <label>Частота адаптера (запр/сек):</label>
+            <input type="number" id="maxRequests" min="0.1" max="100" step="0.1" value="10.0" onchange="applyConfig()">
+        </div>
+        <div class="config-item">
+            <label>Размер группы (PIDs):</label>
+            <select id="groupSize" onchange="applyConfig()">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6" selected>6</option>
+            </select>
+        </div>
+        <button class="btn-apply" onclick="applyConfig()">⚙️ Применить</button>
+        <button class="btn-apply btn-passport" onclick="document.getElementById('passportFile').click()">📂 Загрузить паспорт</button>
+        <input type="file" id="passportFile" accept=".md,.txt" style="display:none" onchange="uploadPassport(this)">
+    </div>
+
+    <div class="content">
+        <!-- Левая панель: Каталог PIDs во всю высоту -->
+        <div class="left-panel">
+            <div class="section">
+                <div class="section-header">
+                    <span>📚 Каталог PIDs</span>
+                    <span id="pidsCounter" style="font-weight: normal; font-size: 0.85em; color: var(--text-dim);">0 выбранных</span>
+                </div>
+                <div class="section-content">
+                    <table id="pidsTable">
+                        <thead>
+                        <tr>
+                            <th>PID</th>
+                            <th>Название</th>
+                            <th>Блок</th>
+                            <th>Режим</th>
+                            <th>Частота (Hz)</th>
+                            <th>Действие</th>
+                        </tr>
+                        </thead>
+                        <tbody id="pidsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Подвижный разделитель (Resizable Divider) -->
+        <div class="divider" id="dragDivider"></div>
+
+        <!-- Правая панель: Бюджет + Расписание -->
+        <div class="right-panel">
+            <!-- Блок данных из паспорта -->
+            <div id="passportBenchmarkCard" class="budget-item" style="display: none; border-color: var(--accent-teal);">
+                <div class="budget-label">
+                    <span style="color: var(--accent-teal);">📋 Паспорт устройства</span>
+                    <span id="passportDeviceName">—</span>
+                </div>
+                <div class="breakdown" id="passportBenchmarkInfo"></div>
+            </div>
+
+            <div style="font-weight: 700; font-size: 0.9em; color: var(--accent-teal); text-transform: uppercase; letter-spacing: 1px;">📊 Бюджет пропускной способности</div>
+
+            <div class="budget-item">
+                <div class="budget-label">
+                    <span>Общий расход шины</span>
+                    <span id="totalBudgetText">0.0 / 10.0 запр/сек</span>
+                </div>
+                <div class="budget-bar">
+                    <div class="budget-fill" id="totalBudgetFill" style="width: 0%;">0%</div>
+                </div>
+            </div>
+
+            <div id="blockBudgets"></div>
+
+            <!-- Расписание в правой колонке -->
+            <div class="section" style="flex: 1; margin: 0; min-height: 250px;">
+                <div class="section-header">
+                    <span>📅 Расписание отправок (Группы)</span>
+                </div>
+                <div class="section-content">
+                    <div style="display: grid; grid-template-columns: 60px 70px 60px 1fr; gap: 6px; padding: 6px 8px; background: var(--bg-header); position: sticky; top: 0; border-bottom: 2px solid var(--border-line); font-weight: 700; font-size: 0.75em; color: var(--text-dim); z-index: 5;">
+                        <div>Цикл</div>
+                        <div>Target</div>
+                        <div>Mode</div>
+                        <div>PIDs (Группа)</div>
+                    </div>
+                    <div id="scheduleList"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-danger" onclick="clearAll()">🗑️ Очистить всё</button>
+                <button class="btn btn-primary" onclick="exportCSV()">📥 Экспорт CSV</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = '/api';
+    let allPidsData = [];
+    let currentPassportData = null;
+
+    // Настройка изменяемого размера панелей (Resizable Divider)
+    const divider = document.getElementById('dragDivider');
+    let isResizing = false;
+
+    divider.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        divider.classList.add('active');
+        document.body.style.cursor = 'col-resize';
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const content = document.querySelector('.content');
+        const contentRect = content.getBoundingClientRect();
+        const newPercent = ((e.clientX - contentRect.left) / contentRect.width) * 100;
+        if (newPercent > 25 && newPercent < 80) {
+            content.style.gridTemplateColumns = `${newPercent}% 6px 1fr`;
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (isResizing) {
+            isResizing = false;
+            divider.classList.remove('active');
+            document.body.style.cursor = '';
+        }
+    });
+
+    async function loadDatabase() {
+        try {
+            const savedConfig = localStorage.getItem('obd_config_state');
+            if (savedConfig) {
+                const conf = JSON.parse(savedConfig);
+                if (conf.max_requests_per_sec) document.getElementById('maxRequests').value = conf.max_requests_per_sec;
+                if (conf.max_group_size) document.getElementById('groupSize').value = conf.max_group_size;
+            }
+
+            await applyConfig(true);
+
+            const response = await fetch(`${API_URL}/pids`);
+            allPidsData = await response.json();
+            updatePidsTable();
+            updateBudget();
+            updateSchedule();
+            await restoreFromLocalStorage();
+        } catch (error) {
+            showNotification(`Ошибка загрузки PIDs: ${error.message}`, 'error');
+        }
+    }
+
+    function saveToLocalStorage() {
+        const selected = allPidsData.filter(p => p.selected)
+            .map(p => ({ pid_id: p.pid_id, frequency: p.frequency }));
+        localStorage.setItem('obd_scheduler_state', JSON.stringify(selected));
+
+        const maxReq = parseFloat(document.getElementById('maxRequests').value);
+        const groupSize = parseInt(document.getElementById('groupSize').value);
+        localStorage.setItem('obd_config_state', JSON.stringify({
+            max_requests_per_sec: maxReq,
+            max_group_size: groupSize
+        }));
+    }
+
+    async function restoreFromLocalStorage() {
+        const saved = localStorage.getItem('obd_scheduler_state');
+        if (!saved) return;
+
+        try {
+            const selected = JSON.parse(saved);
+            for (const s of selected) {
+                const pidData = allPidsData.find(p => p.pid_id === s.pid_id);
+                if (pidData && !pidData.selected) {
+                    await addPid(s.pid_id, s.frequency, true);
+                }
+            }
+        } catch (e) {
+            console.error('Ошибка восстановления из localStorage:', e);
+        }
+    }
+
+    async function uploadPassport(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            try {
+                const content = e.target.result;
+                const response = await fetch(`${API_URL}/load-passport`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content })
+                });
+
+                const result = await response.json();
+                if (response.ok && result.success) {
+                    currentPassportData = result.passport_data;
+                    const pidsResp = await fetch(`${API_URL}/pids`);
+                    allPidsData = await pidsResp.json();
+
+                    showNotification(result.message, 'success');
+                    displayPassportBenchmark();
+                    updatePidsTable();
+                    updateBudget();
+                    updateSchedule();
+                } else {
+                    showNotification(result.message || 'Ошибка загрузки паспорта', 'error');
+                }
+            } catch (err) {
+                showNotification(`Ошибка чтения файла: ${err.message}`, 'error');
+            }
+        };
+        reader.readAsText(file);
+        input.value = '';
+    }
+
+    function displayPassportBenchmark() {
+        if (!currentPassportData || !currentPassportData.benchmark) return;
+
+        const card = document.getElementById('passportBenchmarkCard');
+        const nameSpan = document.getElementById('passportDeviceName');
+        const infoDiv = document.getElementById('passportBenchmarkInfo');
+
+        card.style.display = 'block';
+        const header = currentPassportData.header || {};
+        nameSpan.textContent = header.Device || header.Name || 'Эталонный паспорт';
+
+        const groupSize = parseInt(document.getElementById('groupSize').value) || 6;
+        const bench = currentPassportData.benchmark.find(b => b.group_size === groupSize);
+
+        if (bench) {
+            infoDiv.innerHTML = `
+                <div><strong>Размер группы:</strong> ${bench.group_size} PIDs</div>
+                <div><strong>Скорость адаптера:</strong> ${bench.speed_pids_sec} PID/с</div>
+                <div><strong>Запросов/сек (рекомендация):</strong> <span style="color: var(--accent-teal); font-weight: bold;">${bench.calculated_reqs} запр/сек</span></div>
+                <div><strong>Среднее время ответа:</strong> ${bench.avg_ms} ms</div>
+            `;
+        } else {
+            infoDiv.innerHTML = `<div>Нет бенчмарка для размера группы ${groupSize}</div>`;
+        }
+    }
+
+    async function applyConfig(silent = false) {
+        try {
+            const maxReq = parseFloat(document.getElementById('maxRequests').value);
+            const groupSize = parseInt(document.getElementById('groupSize').value);
+
+            await fetch(`${API_URL}/config`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    max_requests_per_sec: maxReq,
+                    max_group_size: groupSize
+                })
+            });
+
+            const response = await fetch(`${API_URL}/pids`);
+            allPidsData = await response.json();
+
+            if (!silent) showNotification('✅ Конфигурация применена', 'success');
+            displayPassportBenchmark();
+            updatePidsTable();
+            updateBudget();
+            updateSchedule();
+            saveToLocalStorage();
+        } catch (error) {
+            if (!silent) showNotification('Ошибка при сохранении конфигурации', 'error');
+        }
+    }
+
+    function updatePidsTable() {
+        const tbody = document.getElementById('pidsBody');
+        const maxReq = parseFloat(document.getElementById('maxRequests').value) || 10.0;
+        const selectedCount = allPidsData.filter(p => p.selected).length;
+        document.getElementById('pidsCounter').textContent = `${selectedCount} выбранных`;
+
+        // Сортировка элементов таблицы:
+        // 1. Добавлен (selected === true) -> Не добавлен (selected === false)
+        // 2. Блок (block, по алфавиту)
+        // 3. Режим (session, по алфавиту)
+        // 4. PID (pid_id, по алфавиту/возрастанию)
+        const sortedPids = [...allPidsData].sort((a, b) => {
+            if (a.selected !== b.selected) {
+                return a.selected ? -1 : 1;
+            }
+            const blockCompare = (a.block || '').localeCompare(b.block || '');
+            if (blockCompare !== 0) return blockCompare;
+
+            const sessionCompare = (a.session || '').localeCompare(b.session || '');
+            if (sessionCompare !== 0) return sessionCompare;
+
+            return (a.pid_id || '').localeCompare(b.pid_id || '');
+        });
+
+        tbody.innerHTML = sortedPids.map(pid => `
+            <tr>
+                <td><span class="pid-id">${pid.pid_id}</span></td>
+                <td>${pid.name}</td>
+                <td>${pid.block}</td>
+                <td>${pid.session}</td>
+                <td>
+                    ${pid.selected ? `
+                        <div class="pid-input">
+                            <input type="number" min="0" max="${maxReq}" step="0.1" value="${pid.frequency}"
+                                   onchange="updateFrequency('${pid.pid_id}', this.value)">
+                            ${pid.frequency === 0 ? '<span class="badge-init">Init</span>' : ''}
+                        </div>
+                    ` : `
+                        <div class="pid-input">
+                            <input type="number" min="0" max="${maxReq}" step="0.1" placeholder="1.0"
+                                   id="freq-${pid.pid_id}" value="${Math.min(1.0, maxReq)}">
+                        </div>
+                    `}
+                </td>
+                <td>
+                    ${pid.selected ? `
+                        <button class="btn-remove" onclick="removePid('${pid.pid_id}')">✕</button>
+                    ` : `
+                        <button class="btn-add" onclick="addPid('${pid.pid_id}')">+</button>
+                    `}
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    async function addPid(pidId, customFreq = null, isRestoring = false) {
+        let frequency = customFreq;
+        if (frequency === null) {
+            const freqInput = document.getElementById(`freq-${pidId}`);
+            frequency = freqInput ? parseFloat(freqInput.value) : 1.0;
+        }
+
+        if (isNaN(frequency) || frequency < 0) {
+            showNotification('Укажите корректную частоту (0 для разового запроса)', 'error');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/add-pid`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pid_id: pidId, frequency: frequency })
+            });
+
+            const result = await response.json();
+            if (response.ok && result.success) {
+                result.pids.forEach(p => {
+                    const pidData = allPidsData.find(x => x.pid_id === p.pid_id);
+                    if (pidData) {
+                        pidData.frequency = p.frequency;
+                        pidData.selected = p.selected;
+                    }
+                });
+
+                if (!isRestoring) {
+                    showNotification(result.message, 'success');
+                }
+                updatePidsTable();
+                updateBudget();
+                updateSchedule();
+                saveToLocalStorage();
+            } else {
+                if (!isRestoring) showNotification(result.message || 'Ошибка добавления', 'error');
+            }
+        } catch (error) {
+            if (!isRestoring) showNotification('Ошибка сети при добавлении PID', 'error');
+        }
+    }
+
+    async function removePid(pidId) {
+        try {
+            const response = await fetch(`${API_URL}/remove-pid`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pid_id: pidId })
+            });
+
+            const result = await response.json();
+            if (response.ok && result.success) {
+                result.pids.forEach(p => {
+                    const pidData = allPidsData.find(x => x.pid_id === p.pid_id);
+                    if (pidData) {
+                        pidData.frequency = p.frequency;
+                        pidData.selected = p.selected;
+                    }
+                });
+
+                showNotification(result.message, 'success');
+                updatePidsTable();
+                updateBudget();
+                updateSchedule();
+                saveToLocalStorage();
+            }
+        } catch (error) {
+            showNotification('Ошибка удаления PID', 'error');
+        }
+    }
+
+    async function updateFrequency(pidId, frequency) {
+        const freqVal = parseFloat(frequency);
+        if (isNaN(freqVal) || freqVal < 0) {
+            showNotification('Некорректное значение частоты', 'error');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/update-frequency`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pid_id: pidId, frequency: freqVal })
+            });
+
+            const result = await response.json();
+            if (response.ok && result.success) {
+                result.pids.forEach(p => {
+                    const pidData = allPidsData.find(x => x.pid_id === p.pid_id);
+                    if (pidData) {
+                        pidData.frequency = p.frequency;
+                        pidData.selected = p.selected;
+                    }
+                });
+
+                updatePidsTable();
+                updateBudget();
+                updateSchedule();
+                saveToLocalStorage();
+            } else {
+                showNotification(result.message || 'Ошибка обновления частоты', 'error');
+                updatePidsTable();
+            }
+        } catch (error) {
+            showNotification('Ошибка обновления', 'error');
+        }
+    }
+
+    async function clearAll() {
+        if (!confirm('Удалить все выбранные PIDs из расписания?')) return;
+
+        try {
+            const response = await fetch(`${API_URL}/clear`, { method: 'POST' });
+            const result = await response.json();
+
+            if (result.success) {
+                allPidsData.forEach(p => {
+                    p.selected = false;
+                    p.frequency = 0.0;
+                });
+
+                showNotification(result.message, 'success');
+                updatePidsTable();
+                updateBudget();
+                updateSchedule();
+                localStorage.removeItem('obd_scheduler_state');
+            }
+        } catch (error) {
+            showNotification('Ошибка при очистке', 'error');
+        }
+    }
+
+    async function updateBudget() {
+        try {
+            const response = await fetch(`${API_URL}/budget`);
+            const budget = await response.json();
+
+            const totalPercent = budget.total.percent;
+            const totalFill = document.getElementById('totalBudgetFill');
+            totalFill.style.width = Math.min(100, totalPercent) + '%';
+            totalFill.textContent = totalPercent.toFixed(0) + '%';
+            totalFill.className = 'budget-fill';
+            if (totalPercent > 80 && totalPercent <= 100) totalFill.classList.add('warning');
+            if (totalPercent > 100) totalFill.classList.add('danger');
+
+            document.getElementById('totalBudgetText').textContent =
+                `${budget.total.pids_per_sec.toFixed(1)} / ${budget.total.max_pids_sec.toFixed(1)} PID/сек`;
+
+            const blockDiv = document.getElementById('blockBudgets');
+            blockDiv.innerHTML = Object.entries(budget.blocks || {})
+                .map(([name, b]) => {
+                    const percent = b.percent;
+                    let fillClass = 'budget-fill';
+                    if (percent > 80 && percent <= 100) fillClass += ' warning';
+                    if (percent > 100) fillClass += ' danger';
+
+                    const breakdown = b.slot_breakdown.map(s => {
+                        const freqText = s.freq === 0 ? 'Разовый (Init)' : `${s.freq.toFixed(1)}Hz`;
+                        return `<strong>${freqText}</strong>: ${s.count} групп (${s.pids_count} PIDs)`;
+                    }).join('<br>');
+
+                    return `
+                        <div class="budget-item">
+                            <div class="budget-label">
+                                <span>Блок ${b.block}@${b.session}</span>
+                                <span>${b.slots_per_sec.toFixed(1)} PID/сек</span>
+                            </div>
+                            <div class="budget-bar">
+                                <div class="${fillClass}" style="width: ${Math.min(100, percent)}%;">
+                                    ${percent.toFixed(0)}%
+                                </div>
+                            </div>
+                            <div class="breakdown">${breakdown}</div>
+                        </div>
+                    `;
+                }).join('');
+        } catch (error) {
+            console.error('Ошибка обновления бюджета:', error);
+        }
+    }
+
+    async function updateSchedule() {
+        try {
+            const response = await fetch(`${API_URL}/schedule`);
+            const schedule = await response.json();
+
+            const listDiv = document.getElementById('scheduleList');
+
+            if (schedule.length === 0) {
+                listDiv.innerHTML = '<div class="empty-state">Добавьте PIDs из каталога слева для расчета расписания</div>';
+                return;
+            }
+
+            listDiv.innerHTML = schedule.map(cycle => {
+                const maxGroupSize = document.getElementById('groupSize').value;
+                if (cycle.requests.length === 0) {
+                    return `
+                        <div class="cycle-row" style="grid-template-columns: 60px 70px 60px 1fr; opacity: 0.5;">
+                            <div><strong>${cycle.cycle}</strong></div>
+                            <div>—</div>
+                            <div>—</div>
+                            <div style="font-style: italic; color: var(--text-dim);">[ Пауза / Idle ]</div>
+                        </div>
+                    `;
+                }
+                return cycle.requests.map(req => {
+                    const pids = req.pids.map(p => p.pid_id).join(', ');
+                    const cycleTitle = cycle.is_init ? 'Init' : cycle.cycle;
+                    const rowClass = cycle.is_init ? 'cycle-row init-row' : 'cycle-row';
+
+                    return `
+                        <div class="${rowClass}" style="grid-template-columns: 60px 70px 60px 1fr;">
+                            <div><strong>${cycleTitle}</strong></div>
+                            <div>${req.block}</div>
+                            <div>${req.session}</div>
+                            <div title="${pids}">${pids} (${req.group_size}/${maxGroupSize} PIDs)</div>
+                        </div>
+                    `;
+                }).join('');
+            }).join('');
+        } catch (error) {
+            console.error('Ошибка обновления расписания:', error);
+        }
+    }
+
+    async function exportCSV() {
+        try {
+            const schedule = await (await fetch(`${API_URL}/schedule`)).json();
+            const maxReq = document.getElementById('maxRequests').value;
+            const groupSize = document.getElementById('groupSize').value;
+            const timestamp = new Date().toISOString();
+
+            const lines = [
+                `# PROMETRIUS OBD2 PID Schedule`,
+                `# Timestamp: ${timestamp}`,
+                `# Adapter Rate: ${maxReq} req/sec`,
+                `# Max Group Size: ${groupSize}`,
+                `Cycle,Target,Mode,PIDs`
+            ];
+
+            schedule.forEach(cycle => {
+                cycle.requests.forEach(req => {
+                    const pids = req.pids.map(p => p.pid_id).join(';');
+                    const cycleName = cycle.is_init ? 'Init' : cycle.cycle;
+                    lines.push(`${cycleName},${req.block},${req.session},${pids}`);
+                });
+            });
+
+            const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'prometrius_obd_schedule.csv';
+            a.click();
+
+            showNotification('✅ Файл расписания CSV успешно экспортирован', 'success');
+        } catch (error) {
+            showNotification('Ошибка экспорта в CSV', 'error');
+        }
+    }
+
+    function showNotification(message, type = 'info') {
+        const existing = document.querySelector('.notification');
+        if (existing) existing.remove();
+
+        const div = document.createElement('div');
+        div.className = `notification ${type}`;
+        div.textContent = message;
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 3500);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadDatabase);
+</script>
+</body>
+</html>

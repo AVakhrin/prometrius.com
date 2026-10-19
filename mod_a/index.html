@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Prometrius Mod.A — Единая шина данных телеметрии для автотранспорта</title>
+    <meta name="description" content="Архитектура Prometrius Mod.A: единая платформа сбора, нормализации и трансляции бортовых данных. Модули OBD2, Direct CAN, GSM/Cloud Telemetry и TPMS.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M124,16L388,16A108,108 0,0 1,496 124L496,388A108,108 0,0 1,388 496L124,496A108,108 0,0 1,16 388L16,124A108,108 0,0 1,124 16z' fill='%230C394A' stroke='%2322d3d3' stroke-width='16'/%3E%3Cpath d='M245,315 L365,220 L267,335 Z' fill='%2322d3d3'/%3E%3Ccircle cx='256' cy='325' r='18' fill='%23FFFFFF'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .hub-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            padding: 24px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .hub-card.active-module {
+            border: 2px solid var(--accent-teal);
+            box-shadow: 0 0 25px rgba(34, 211, 211, 0.18);
+        }
+        .hub-card.in-dev {
+            opacity: 0.75;
+            border-style: dashed;
+        }
+        .hub-card.in-dev:hover {
+            opacity: 1;
+            border-color: var(--text-dim);
+        }
+        .hub-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 2px;
+            width: fit-content;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .hub-badge.ready { background: var(--success); color: #000; }
+        .hub-badge.dev { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--warning); color: var(--warning); }
+        .btn-hub {
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 18px;
+            background: var(--accent-teal);
+            color: #0b1418;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: 0.2s;
+        }
+        .btn-hub:hover {
+            box-shadow: 0 0 16px var(--accent-glow);
+            transform: translateY(-2px);
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ШАПКА -->
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <svg width="30" height="30" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M124,16L388,16A108,108 0,0 1,496 124L496,388A108,108 0,0 1,388 496L124,496A108,108 0,0 1,16 388L16,124A108,108 0,0 1,124 16z" fill="#0C394A" stroke="#22d3d3" stroke-width="14"/>
+                    <path d="M245,315 L365,220 L267,335 Z" fill="#22d3d3"/>
+                    <circle cx="256" cy="325" r="18" fill="#FFFFFF"/>
+                </svg>
+                Prometrius Link
+                <span class="brand-aliases">[Архитектура Mod.A]</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <div class="version-badge">ХАБ РАСШИРЕНИЙ</div>
+                <div class="version-badge" style="background: transparent;">
+                    <a href="/mod_a/" style="color: var(--accent-teal); font-weight: bold;">RU</a> | 
+                    <a href="../en/mod_a/" style="color: var(--text-dim);">EN</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO СЕКЦИЯ ХАБА -->
+        <section class="mod-hero">
+            <div class="container">
+                <div class="ecosystem-badge">
+                    Линейка <span>Prometrius Link</span> // Платформа <strong>Prometrius Lab</strong>
+                </div>
+                <h1 class="hero-title">
+                    Prometrius Mod.A — <span>Единая шина данных</span> телеметрии для автотранспорта
+                </h1>
+                <p class="hero-desc">
+                    Модульный аппаратно-программный комплекс сбора, нормализации и маршрутизации автомобильных потоков данных. Архитектура Mod.A агрегирует стандартную OBD2-диагностику, сырые шины CAN, датчики давления колес TPMS и спутниковый GSM-мониторинг в общий типизированный кэш для приборных панелей, спортивных хронометров и облачных систем аналитики.
+                </p>
+
+                <div class="specs-bar">
+                    <div>Концепция: <strong>Local-First Telemetry Hub</strong></div>
+                    <div>Шина данных: <strong>Zero-Latency Memory Snapshot</strong></div>
+                    <div>Протоколы вещания: <strong>TCP / UDP / NMEA $RC3 / CAN v2</strong></div>
+                    <div>Безопасность: <strong>Hardware KeyStore (RSA-2048) + PIN-Gate</strong></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- КАРТОЧКИ МОДУЛЕЙ -->
+        <section class="section-block" style="border-bottom: none;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">// Модули расширения Mod.A</span>
+                    <h2 class="section-title">Каталог подсистем и аппаратных шлюзов</h2>
+                </div>
+
+                <div class="features-grid">
+                    
+                    <!-- 1. OBD2 Gateway (АКТИВНЫЙ) -->
+                    <div class="hub-card active-module">
+                        <div>
+                            <div class="hub-badge ready">● Релиз v2.4 (Доступно)</div>
+                            <div class="feature-num">01 / DIAGNOSTIC GATEWAY</div>
+                            <h3>OBD2 Gateway (PL.OBD2)</h3>
+                            <p>
+                                Высокоскоростной телематический шлюз-мультиплексор для адаптеров семейства ELM327. Ускоряет опрос параметров в 2–4 раза за счет конвейера <code>ATSP6</code> и группировки запросов. Мгновенная раздача кэша клиентам <strong>Torque Pro, Car Scanner, RealDash</strong> и <strong>RaceChrono</strong> по сети со скоростью 1–2 мс.
+                            </p>
+                        </div>
+                        <a href="obd2/" class="btn-hub">
+                            Перейти / Скачать ➔
+                        </a>
+                    </div>
+
+                    <!-- 2. Direct CAN (В РАЗРАБОТКЕ) -->
+                    <div class="hub-card in-dev">
+                        <div>
+                            <div class="hub-badge dev"><div class="pulse-dot"></div> В разработке</div>
+                            <div class="feature-num">02 / RAW BUS ACCESS</div>
+                            <h3>Direct CAN</h3>
+                            <p>
+                                Модуль прямого аппаратного подключения к шинам CAN / CAN-FD без накладных расходов протокола OBD-II. Непрерывный перехват сырых фреймов, трансляция кастомных PGN/CAN-ID, фильтрация широковещательных пакетов и прямая инжекция управляющих сигналов.
+                            </p>
+                        </div>
+                        <div style="margin-top: 20px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim);">
+                            Спецификация формируется
+                        </div>
+                    </div>
+
+                    <!-- 3. GSM / Cloud Telemetry (В РАЗРАБОТКЕ) -->
+                    <div class="hub-card in-dev">
+                        <div>
+                            <div class="hub-badge dev"><div class="pulse-dot"></div> В разработке</div>
+                            <div class="feature-num">03 / CELLULAR UPLINK</div>
+                            <h3>GSM / Cloud Telemetry</h3>
+                            <p>
+                                Автономный бортовой модуль удаленной телеметрии (TCU) на базе 4G/LTE. Передача географических координат, трековых заездов, диагностических параметров и аварийных событий в облачную платформу Prometrius Lab в режиме реального времени (MQTT/WebSocket).
+                            </p>
+                        </div>
+                        <div style="margin-top: 20px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim);">
+                            Спецификация формируется
+                        </div>
+                    </div>
+
+                    <!-- 4. TPMS Bus (В РАЗРАБОТКЕ) -->
+                    <div class="hub-card in-dev">
+                        <div>
+                            <div class="hub-badge dev"><div class="pulse-dot"></div> В разработке</div>
+                            <div class="feature-num">04 / TIRE SENSORS</div>
+                            <h3>TPMS Bus</h3>
+                            <p>
+                                Аппаратный радиочастотный концентратор для опроса датчиков давления и температуры в шинах (RF 433/315 МГц и BLE TPMS). Прямая нормализация показаний колес и трансляция в виртуальные приборные панели RealDash без задействования штатной шины авто.
+                            </p>
+                        </div>
+                        <div style="margin-top: 20px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim);">
+                            Спецификация формируется
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ДИАГРАММА АРХИТЕКТУРЫ MOD.A -->
+                <div class="diag-box">
+┌─────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌────────────────┐
+│  OBD2 Gateway   │ │   Direct CAN   │ │    TPMS Bus    │ │   GSM Uplink   │
+│  [ РЕЛИЗ v2.4 ] │ │ [В разработке] │ │ [В разработке] │ │ [В разработке] │
+└────────┬────────┘ └───────┬────────┘ └───────┬────────┘ └───────┬────────┘
+         │                  │                  │                  │
+         ▼                  ▼                  ▼                  ▼
+┌──────────────────────────────────────────────────────────────────────────┐
+│              PROMETRIUS MOD.A — ЕДИНАЯ ТЕЛЕМАТИЧЕСКАЯ ШИНА               │
+│      (Нормализация единиц, маршрутизация, локальный кэш Snapshot)        │
+└────────────────────────────────────┬─────────────────────────────────────┘
+                                     │
+         ┌───────────────────────────┼───────────────────────────┐
+         ▼                           ▼                           ▼
+[RealDash / Приборки]       [RaceChrono / Тайминг]      [Облако Prometrius Lab]</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ПОДВАЛ -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                © 2026 <strong>Prometrius Lab</strong>. Архитектура <strong>Prometrius Mod.A</strong>.<br>
+                Программный комплекс защищен свидетельством ФИПС (Роспатент) № 2026607449.
+            </div>
+            <div style="text-align: right;">
+                <a href="../privacy/">Политика конфиденциальности</a> | 
+                Техническая поддержка: <a href="mailto:support@ptometrius.com">support@ptometrius.com</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

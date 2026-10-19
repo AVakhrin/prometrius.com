@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy & Terms of Service — Prometrius Link: OBD2</title>
+    <meta name="description" content="Privacy Policy, system permissions disclosure, and Terms of Service for Prometrius Link: OBD2 (PL.OBD2) Android application.">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .legal-page { padding: 50px 0 80px; }
+        .legal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: 6px;
+            padding: 36px;
+            margin-top: 24px;
+        }
+        .legal-card h2 {
+            color: var(--accent-teal);
+            font-size: 1.25rem;
+            margin: 28px 0 12px;
+            border-bottom: 1px solid var(--border-line);
+            padding-bottom: 6px;
+        }
+        .legal-card h2:first-of-type { margin-top: 0; }
+        .legal-card p, .legal-card li {
+            color: var(--text-dim);
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+        .legal-card ul { padding-left: 20px; margin: 10px 0; }
+        .legal-card li { margin-bottom: 8px; }
+        .legal-card strong { color: var(--text-main); }
+        .perm-tag {
+            font-family: var(--font-mono);
+            background: var(--bg-input);
+            border: 1px solid var(--border-line);
+            color: var(--accent-teal);
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">
+                <a href="/en/mod_a/" style="text-decoration:none; display:flex; align-items:center; gap:12px; color:#fff;">
+                    <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M124,16L388,16A108,108 0,0 1,496 124L496,388A108,108 0,0 1,388 496L124,496A108,108 0,0 1,16 388L16,124A108,108 0,0 1,124 16z" fill="#0C394A" stroke="#22d3d3" stroke-width="14"/>
+                        <path d="M245,315 L365,220 L267,335 Z" fill="#22d3d3"/>
+                        <circle cx="256" cy="325" r="18" fill="#FFFFFF"/>
+                    </svg>
+                    Prometrius Link: OBD2
+                </a>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 0.8rem;">
+                <a href="/privacy/" style="color:var(--text-dim);">RU</a> | <a href="/en/privacy/" style="color:var(--accent-teal); font-weight:bold;">EN</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="legal-page">
+        <div class="container">
+            <div class="section-tag">// Legal Information</div>
+            <h1 class="section-title">Privacy Policy and Terms of Service</h1>
+            <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 6px;">
+                Effective Date: October 19, 2026 | Version: 2.4
+            </p>
+
+            <div class="legal-card">
+                <h2>1. Overview and Core Principles</h2>
+                <p>
+                    This Privacy Policy applies to the software application <strong>«Prometrius Link: OBD2»</strong> (also known as <strong>PL.OBD2</strong> or <strong>Prometrius OBD2</strong>), developed by <strong>Prometrius Lab</strong> (Official IP registration filing No. 2026607449).
+                </p>
+                <p>
+                    Prometrius Link: OBD2 is built on a <strong>Local-First Architecture</strong>. We do not operate remote telemetry tracking servers. We do not collect, transmit, sell, or monetize any personal data, driving behavior, or vehicle diagnostic metrics.
+                </p>
+
+                <h2>2. Vehicle Diagnostic Data and VIN Processing</h2>
+                <p>
+                    The application interfaces with your vehicle's Electronic Control Units (ECUs) exclusively through user-connected diagnostic hardware (ELM327 or compatible):
+                </p>
+                <ul>
+                    <li><strong>De-identified Vehicle Model Descriptor (WMI + VDS):</strong> In compliance with data minimization principles and privacy regulations, the app <strong>does not store or transmit the unique vehicle serial number (VIS)</strong>. From the Mode 09 PID 02 response, only the first 9 characters of the VIN are extracted — comprising the WMI (World Manufacturer Identifier, 3 characters) and VDS (Vehicle Descriptor Section, 6 characters representing body, engine, and transmission variants). The remaining 8 characters containing the individual chassis serial number (VIS) are discarded in memory. These 9 characters represent a non-identifying technical model descriptor and cannot be used to trace a specific vehicle owner.</li>
+                    <li><strong>Strict Local Storage:</strong> Telemetry streams, generated device passports, and communication logs are saved exclusively within the app's sandboxed private storage (<code>filesDir</code>). All data is permanently destroyed when the user uninstalls the app. File sharing is executed exclusively upon direct user action via the Android Storage Access Framework (SAF) or FileProvider.</li>
+                </ul>
+
+                <h2>3. Explicit Disclosure of Android System Permissions</h2>
+                <p>
+                    In accordance with Google Play Developer Policies, here is an explicit justification for each sensitive permission declared in our manifest:
+                </p>
+                <ul>
+                    <li><span class="perm-tag">BLUETOOTH_SCAN</span> (with <code>android:usesPermissionFlags="neverForLocation"</code>) & <span class="perm-tag">BLUETOOTH_CONNECT</span> — Required on Android 12+ (API 31+) to discover and establish RFCOMM/GATT connections with ELM327 adapters. The <code>neverForLocation</code> flag explicitly asserts that Bluetooth hardware scan results are never used to determine physical geographic location.</li>
+                    <li><span class="perm-tag">ACCESS_FINE_LOCATION</span> & <span class="perm-tag">ACCESS_COARSE_LOCATION</span> — Used strictly for: 1) legacy Bluetooth scanning on Android 9–11; 2) reading the hardware MAC address (BSSID) of connected ELM327 Wi-Fi access points on Android 10+. Because standard Wi-Fi adapters share identical factory IP addresses (192.168.0.10:35000), BSSID verification is mathematically required to avoid corrupting vehicle calibration passports. <strong>The app never reads, logs, or tracks GPS coordinates.</strong></li>
+                    <li><span class="perm-tag">FOREGROUND_SERVICE</span> & <span class="perm-tag">FOREGROUND_SERVICE_CONNECTED_DEVICE</span> — Required to sustain unbroken real-time serial communication with the vehicle ECU when the app is in the background or when the head unit display turns off.</li>
+                    <li><span class="perm-tag">WAKE_LOCK</span> — Prevents the mobile CPU from entering low-power sleep mode during high-speed active diagnostic streaming.</li>
+                    <li><span class="perm-tag">INTERNET</span> — Operates the internal loopback HTTP/WebSocket server (<code>127.0.0.1</code>) and powers local TCP/UDP streaming to in-car dash displays or private VPN tunnels (Tailscale).</li>
+                </ul>
+
+                <h2>4. Hardware Cryptography and Device Identity</h2>
+                <p>
+                    Upon initial launch, the app generates an asymmetric <strong>RSA-2048</strong> keypair within the hardware-backed <strong>Android KeyStore</strong>.
+                </p>
+                <p>
+                    The private key is non-exportable and never leaves the host device's secure hardware element. Only the public key (Public Key PEM) is exported inside the Device Passport to cryptographically sign and encrypt custom polling plans (<code>.plp</code>), ensuring custom plans can only be decrypted and executed by that specific hardware device.
+                </p>
+
+                <h2>5. Automotive Safety Disclaimer & Limitation of Liability</h2>
+                <p>
+                    The application is provided on an "AS IS" and "AS AVAILABLE" basis without warranties of any kind. Interfacing with a vehicle's On-Board Diagnostics (OBD-II) port involves communicating with critical vehicular networks (CAN bus).
+                </p>
+                <p>
+                    Under no circumstances shall Prometrius Lab or its contributors be held liable for any direct, indirect, incidental, or consequential damages, including but not limited to ECU faults, engine/transmission damage, vehicular accidents, personal injury, or traffic violations resulting from the use or misuse of this software.
+                </p>
+
+                <h2>6. Developer Contact Information</h2>
+                <p>
+                    For inquiries, data questions, or support regarding Prometrius Link: OBD2, please contact:<br>
+                    <strong>Email:</strong> <a href="mailto:support@prometrius.com">support@prometrius.com</a><br>
+                    <strong>Website:</strong> <a href="https://prometrius.com">https://prometrius.com</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                © 2026 <strong>Prometrius Lab</strong>. Project <strong>Prometrius Link: OBD2 (PL.OBD2)</strong>.<br>
+                Official IP Registry: Rospatent Application No. 2026607449.
+            </div>
+            <div style="text-align: right;">
+                <a href="/privacy/">Политика конфиденциальности (RU)</a> | <a href="/en/privacy/">Privacy Policy (EN)</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

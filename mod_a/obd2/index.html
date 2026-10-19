@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Prometrius Link: OBD2 (PL.OBD2) — Высокоскоростной телематический шлюз</title>
+    <meta name="description" content="Кросс-платформенный телематический шлюз-мультиплексор на Rust для адаптеров ELM327. Ускорение опроса PID, трансляция в Torque, CarScanner, RealDash, RaceChrono локально и через Tailscale/VPN.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M124,16L388,16A108,108 0,0 1,496 124L496,388A108,108 0,0 1,388 496L124,496A108,108 0,0 1,16 388L16,124A108,108 0,0 1,124 16z' fill='%230C394A' stroke='%2322d3d3' stroke-width='16'/%3E%3Cpath d='M245,315 L365,220 L267,335 Z' fill='%2322d3d3'/%3E%3Ccircle cx='256' cy='325' r='18' fill='%23FFFFFF'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<!-- ШАПКА -->
+<header class="site-header">
+    <div class="container header-content">
+        <div class="brand">
+            <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M124,16L388,16A108,108 0,0 1,496 124L496,388A108,108 0,0 1,388 496L124,496A108,108 0,0 1,16 388L16,124A108,108 0,0 1,124 16z" fill="#0C394A" stroke="#22d3d3" stroke-width="14"/>
+                <path d="M245,315 L365,220 L267,335 Z" fill="#22d3d3"/>
+                <circle cx="256" cy="325" r="18" fill="#FFFFFF"/>
+            </svg>
+            Prometrius Link: OBD2
+            <span class="brand-aliases">[PL.OBD2 · Prometrius OBD2]</span>
+        </div>
+        <div class="version-badge">v2.4 RELEASE · ARM64</div>
+    </div>
+</header>
+
+<main>
+    <!-- СЕКЦИЯ 1: HERO & СКАЧИВАНИЕ -->
+    <section class="mod-hero">
+        <div class="container">
+            <div class="ecosystem-badge">
+                Линейка <span>Prometrius Link</span> // Модуль платформы <strong>Prometrius Lab</strong>
+            </div>
+            <div class="legal-tag">
+                Свидетельство ФИПС (Роспатент): <strong>Заявка на регистрацию программы для ЭВМ № 2026607449</strong>
+            </div>
+            <h1 class="hero-title">
+                Высокопроизводительный телематический шлюз <span>ELM327 / OBD-II</span> на Rust
+            </h1>
+            <p class="hero-desc">
+                Низкоуровневый сервер-мультиплексор для Android. Изолирует сторонний диагностический софт от медленных физических задержек CAN-шины, формирует строгие тактовые сетки опроса (WFQ) и транслирует кэшированные параметры клиентам за 1–2 мс — как на одном устройстве, так и по локальной сети или через Tailscale/VPN по всему миру.
+            </p>
+
+            <div class="download-grid">
+                <!-- RuStore -->
+                <a href="https://www.rustore.ru/catalog/app/com.prometrius.obd2" class="btn-dl" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm8 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
+                    </svg>
+                    <div class="btn-dl-desc">
+                        <span class="title">Скачать в RuStore</span>
+                        <span class="sub">Бесплатная базовая версия</span>
+                    </div>
+                </a>
+
+                <!-- Google Play -->
+                <a href="https://play.google.com/store/apps/details?id=com.prometrius.obd2" class="btn-dl" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3.6 2.3l11.4 11.4-3.5 3.5L2.3 3.6c-.3-.4-.3-1 0-1.3.3-.3.9-.3 1.3 0zm13.1 7.2l3.4 1.9c.7.4.7 1.1 0 1.5l-3.4 1.9-2.9-2.9 2.9-2.4zm-4.3 4.3L4.1 22.1c-.4.4-1 .4-1.3 0-.3-.3-.3-.9 0-1.3l8.3-8.3 1.3 1.3z"/>
+                    </svg>
+                    <div class="btn-dl-desc">
+                        <span class="title">Скачать в Google Play</span>
+                        <span class="sub">Android 7.0 / 9.0+</span>
+                    </div>
+                </a>
+
+                <!-- Direct APK -->
+                <a href="https://prometrius.com/downloads/prometrius-link-obd2-v2.4-arm64.apk" class="btn-dl">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 20h14v-2H5v2zM12 2L6.5 8.5h3.5V16h4V8.5h3.5L12 2z"/>
+                    </svg>
+                    <div class="btn-dl-desc">
+                        <span class="title">Прямой APK (arm64-v8a)</span>
+                        <span class="sub">Без сервисов Google · 233 стр. дампа</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="specs-bar">
+                <div>Архитектура: <strong>arm64-v8a strictly</strong></div>
+                <div>Ядро: <strong>Rust (tokio / axum / std::net)</strong></div>
+                <div>Интерфейс: <strong>Isolated WebView + JS-Bridge</strong></div>
+                <div>Фон: <strong>Foreground Service + WakeLock</strong></div>
+                <div>Лицензия: <strong>Базовая версия бесплатна</strong></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- РАЗДЕЛ МОДЕЛИ: БЕСПЛАТНАЯ ПРОГРАММА И PRO-ПОСТРОИТЕЛЬ ПЛАНОВ -->
+    <section class="section-block">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// Модель доступности</span>
+                <h2 class="section-title">Базовый функционал и кастомные планы опроса</h2>
+            </div>
+            <div class="tier-grid">
+                <!-- Бесплатная программа (ВЫДЕЛЕНА РАМКОЙ И СВЕЧЕНИЕМ) -->
+                <div class="tier-card featured">
+                    <span class="tier-badge free">БЕСПЛАТНО НАВСЕГДА</span>
+                    <h3>Мобильное приложение PL.OBD2</h3>
+                    <p class="tier-desc">
+                        Полнофункциональный шлюз-мультиплексор для повседневной эксплуатации, трек-дней и диагностики без ограничений по времени.
+                    </p>
+                    <ul class="tier-list">
+                        <li>Стабильный темп опроса до 60 PID/сек;</li>
+                        <li>Полная поддержка 4 транспортов: Classic BT (SPP), BLE GATT, Wi-Fi, USB OTG;</li>
+                        <li>Мультиплексирование потоков (Torque, CarScanner, RealDash, RaceChrono);</li>
+                        <li>Автоматическое снятие Паспорта связки и бенчмарк групп 1..6;</li>
+                        <li>Локальное вещание и трансляция по сети через защитный PIN-Gate.</li>
+                    </ul>
+                </div>
+
+                <!-- Платный Web Scheduler -->
+                <div class="tier-card">
+                    <span class="tier-badge pro">ПЛАТНЫЙ WEB SCHEDULER</span>
+                    <h3>Ручная сборка планов опроса</h3>
+                    <p class="tier-desc">
+                        Оптимизированный веб-построитель планов с возможностью тонкой ручной настройки параметров и тактовой сетки опроса шины.
+                    </p>
+                    <ul class="tier-list">
+                        <li>Преодоление лимита 60 PID/с до предельных цифр паспорта адаптера (до 95.5+ PID/сек);</li>
+                        <li>Опрос редких показателей путем расширения циклов карусели без замедления скоростного пула;</li>
+                        <li>Ручная вставка дилерских величин Mode 22 с назначением индивидуальных блоков (Target) и адресов ответа (Reply);</li>
+                        <li>Экспорт зашифрованных планов .plp с привязкой к аппаратному ключу RSA-2048 устройства.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК 0: БЫСТРЫЙ СТАРТ (ОБЩАЯ НАСТРОЙКА ШЛЮЗА) -->
+    <section class="section-block">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// Порядок запуска (Workflow)</span>
+                <h2 class="section-title">Три шага инициализации Prometrius Link</h2>
+            </div>
+            <p style="color: var(--text-dim); max-width: 840px;">
+                Архитектура шлюза разделяет личность автомобиля, адаптер и профиль опроса. Паспорт привязывается к уникальному ключу <span class="code-inline">MAC|протокол|UID_авто</span>, исключая смешивание калибровок между машинами.
+            </p>
+
+            <div class="step-timeline">
+                <!-- Шаг 1: Адаптер -->
+                <div class="step-card">
+                    <span class="step-badge">ШАГ 1: АВТО И АДАПТЕР</span>
+                    <h4>Выбор устройства</h4>
+                    <ol>
+                        <li>В главном окне выберите или добавьте ваш <strong>Автомобиль</strong> (генерируется UUID v7).</li>
+                        <li>Нажмите на поле <strong>Адаптер</strong> и укажите тип связи: <code>BT</code>, <code>BLE</code>, <code>Wi-Fi</code> или <code>USB</code>.</li>
+                        <li>Для Classic Bluetooth поддерживается автоподстановка PIN (1234/0000), для BLE — опция <strong>«Скорость BLE»</strong> (приоритет <code>CONNECTION_PRIORITY_HIGH</code>), для USB OTG — прямой bulk-доступ к чипам CH340, CP210x, FTDI, PL2303.</li>
+                    </ol>
+                </div>
+
+                <!-- Шаг 2: Паспорт -->
+                <div class="step-card">
+                    <span class="step-badge">ШАГ 2: СНЯТИЕ ПАСПОРТА</span>
+                    <h4>Калибровка связки</h4>
+                    <ol>
+                        <li>Нажмите <strong>[СТАРТ]</strong>. Запустится процесс знакомства (команды <code>ATZ</code>, <code>ATI</code>, <code>AT@1</code>, <code>ATDPN</code>).</li>
+                        <li>Ядро прогоняет измерительную карусель однородных групп (размерности 1..6) и замеряет реальный физический предел шины (до <strong>95.5 PID/сек</strong>).</li>
+                        <li>По завершении формируется эталонный <strong>Паспорт связки</strong> с фиксацией ответивших параметров (кнопка <strong>[ПАСПОРТ]</strong>). При повторных запусках знакомство пропускается.</li>
+                    </ol>
+                </div>
+
+                <!-- Шаг 3: Профиль -->
+                <div class="step-card">
+                    <span class="step-badge">ШАГ 3: ПРОФИЛЬ ОПРОСА</span>
+                    <h4>Выбор показателей</h4>
+                    <ol>
+                        <li>Перейдите на вкладку <strong>«ПОКАЗАТЕЛИ»</strong>. Автоматически активируется профиль текущей пары.</li>
+                        <li>Отметьте необходимые датчики чекбоксами и задайте индивидуальную частоту (Гц).</li>
+                        <li>Шлюз строго контролирует <strong>Бюджет шины</strong> (например: <em>«Выбрано: 40 из 54 pid/c»</em>). Превышение лимита аппаратно блокируется во избежание просадок и очередей.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК 1: ИНТЕГРАЦИЯ СО СТОРОННИМ ПО -->
+    <section class="section-block">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// Внешние потребители данных</span>
+                <h2 class="section-title">Создание интерфейсов и подключение клиентов</h2>
+            </div>
+            <p style="color: var(--text-dim); max-width: 860px;">
+                Prometrius Link изолирует адаптер и выступает мульти-сервером. Подключение сторонних приложений осуществляется <strong>не только по локальному адресу 127.0.0.1</strong>: вы можете подключить головное устройство по общей Wi-Fi сети автомобиля или транслировать живой поток телеметрии <strong>из любой точки мира через Tailscale, WireGuard или любой VPN-меш</strong>. Безопасность внешних подключений гарантирует встроенный PIN-Gate.
+            </p>
+
+            <!-- Этап 1: Создание интерфейса -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-line); padding: 20px; border-radius: 4px; margin-top: 18px;">
+                <span class="step-badge">ЭТАП 1: СОЗДАНИЕ ВЫХОДА В ШЛЮЗЕ</span>
+                <h4 style="font-size: 1.05rem; margin-bottom: 8px;">Настройка вкладки «ИНТЕРФЕЙСЫ»</h4>
+                <p style="color: var(--text-dim); font-size: 0.88rem; margin-bottom: 12px;">
+                    В приложении откройте вкладку <strong>«ИНТЕРФЕЙСЫ»</strong> → нажмите <strong>[ДОБАВИТЬ]</strong> и выберите формат вещания:
+                </p>
+                <ul style="padding-left: 20px; color: var(--text-dim); font-size: 0.85rem; line-height: 1.6;">
+                    <li><strong>RealDash</strong> — сетевой порт по умолчанию <code>5558</code> (бинарные 16-байтные TCP-кадры <code>0x11223344</code>). Нажмите <em>[Сохранить RealDash XML]</em> для генерации файла конфигурации приборов.</li>
+                    <li><strong>RaceChrono</strong> — порт <code>5559</code> (строки телеметрии <code>$RC3</code> 10 Гц NMEA). Нажмите <em>[Сохранить легенду]</em> для назначения каналов логгера.</li>
+                    <li><strong>OBD2 / ELM327</strong> — сетевой порт <code>35000</code> или <code>5557</code> (полная эмуляция протокола ELM327 v1.5 по TCP для Torque Pro и Car Scanner).</li>
+                    <li><strong>SimplOBD2</strong> — порт <code>5560</code> для текстового потока сырых значений.</li>
+                </ul>
+            </div>
+
+            <!-- Этап 2: Подключение софта -->
+            <div class="step-timeline" style="margin-top: 18px;">
+                <!-- Torque Pro -->
+                <div class="step-card">
+                    <span class="step-badge">ЭТАП 2А: TORQUE PRO</span>
+                    <h4>Подключение Torque</h4>
+                    <ol>
+                        <li>Откройте <strong>Настройки → Настройки адаптера OBD</strong>.</li>
+                        <li>Тип подключения: укажите <strong>Wi-Fi</strong>.</li>
+                        <li>IP-адрес: <span class="code-inline">127.0.0.1</span> (на одном устройстве), IP в Wi-Fi сети автомобиля или виртуальный IP шлюза в <strong>Tailscale / VPN</strong>.</li>
+                        <li>Порт: укажите <span class="code-inline">35000</span> (или назначенный порт OBD2).</li>
+                        <li>Запросы исполняются мгновенно из кэша памяти за 1–2 мс.</li>
+                    </ol>
+                </div>
+
+                <!-- Car Scanner -->
+                <div class="step-card">
+                    <span class="step-badge">ЭТАП 2Б: CAR SCANNER</span>
+                    <h4>Подключение Car Scanner</h4>
+                    <ol>
+                        <li>Откройте <strong>Настройки → Подключение</strong>.</li>
+                        <li>Тип подключения: укажите <strong>Wi-Fi</strong>.</li>
+                        <li>IP-адрес: <span class="code-inline">127.0.0.1</span>, локальный адрес сети или IP из Tailscale.</li>
+                        <li>Порт: <span class="code-inline">35000</span> (или назначенный порт OBD2).</li>
+                        <li>Шлюз эмулирует ответы настоящего адаптера: статус <code>ELM327 v1.5 (Prometrius Cache)</code> с поддержкой <code>ATH1</code>.</li>
+                    </ol>
+                </div>
+
+                <!-- RealDash & RaceChrono -->
+                <div class="step-card">
+                    <span class="step-badge">ЭТАП 2В: ТЕЛЕМЕТРИЯ</span>
+                    <h4>RealDash & RaceChrono</h4>
+                    <ol>
+                        <li><strong>RealDash:</strong> Garage → Connections → RealDash CAN → TCP-клиент → укажите <span class="code-inline">IP:5558</span>. Импортируйте выгруженный XML.</li>
+                        <li><strong>RaceChrono:</strong> Settings → Vehicle profile → DIY Device → TCP client → <span class="code-inline">IP:5559</span> ($RC3 10 Гц). Доступно удаленное наблюдение за болидом на треке из любой точки мира.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Диаграмма потока -->
+            <div class="diag-box">
+                [Бортовая сеть CAN 500k] ──(BT SPP / BLE GATT / Wi-Fi / USB OTG)──┐
+                ▼
+                ┌──────────────────────────────────────────────────────────────────┐
+                │ Prometrius Link Kernel (Rust / libdlc_obd2.so)                   │
+                │  ├─ Изолированный опрос шины, группировка, сборка ISO-TP         │
+                │  └─ Memory Cache Snapshot (Время отдачи клиентам: 1–2 мс)        │
+                └──────┬────────────────────┬────────────────────┬─────────────────┘
+                │ TCP :5558          │ TCP :5559          │ TCP :35000 / :5557
+                ▼ (RealDash CAN v2)  ▼ ($RC3 NMEA 10Hz)   ▼ (ELM327 Emulation)
+                ┌──────────────────────────────────────────────────────────────────┐
+                │ Сетевой транспорт: Localhost (127.0.0.1) / Wi-Fi LAN / Tailscale  │
+                │ [Защита периметра: Встроенный PIN-Gate при доступе извне]         │
+                └──────────────────────────────────────────────────────────────────┘
+                │                    │                    │
+                [RealDash Dashboard]  [RaceChrono LapTimer] [Torque Pro / CarScanner]</div>
+        </div>
+    </section>
+
+    <!-- ТЕХНИЧЕСКИЙ СТЕК (ЗАМЕНА БЛОКА 02) -->
+    <section class="section-block">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">// Архитектурные особенности</span>
+                <h2 class="section-title">Инженерные решения ядра Prometrius</h2>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-num">01 / CAN PIPELINE</div>
+                    <h3>Ускорение опроса в 2–4 раза</h3>
+                    <p>
+                        Инициализация адаптера по протоколу <strong>ATSP6</strong> с отключением эхо-запросов (<code>ATE0</code>), форматирования (<code>ATL0</code>, <code>ATS0</code>) и активацией агрессивных адаптивных таймингов (<code>ATAT2</code>). Группировка до 6 PID в одном фрейме повышает темп съема до <strong>60–95.5 PID/сек</strong>.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-num">02 / MULTIPLEXING</div>
+                    <h3>Мультиплексирование потоков</h3>
+                    <p>
+                        Ядро шлюза работает как мультиплексор, позволяя <strong>нескольким клиентам</strong> (Torque, CarScanner, RealDash) одновременно подключаться к одному адаптеру. Данные мгновенно раздаются из локального кэша памяти (Snapshot) без потери скорости и пропусков кадров.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-num">03 / STABILITY</div>
+                    <h3>Автономный Foreground Service</h3>
+                    <p>
+                        Ядро шлюза оформлено как системная служба типа <code>connectedDevice</code> с удержанием процессора через <strong>PARTIAL_WAKE_LOCK</strong>. Связь с бортовыми системами не разрывается при сворачивании приложения и выключении экрана магнитолы.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК 2: WEB SCHEDULER (ОБНОВЛЕННЫЕ ДАННЫЕ И БЮДЖЕТЫ 7DF / 7E1) -->
+    <section class="section-block" style="border-bottom: none;">
+        <div class="container">
+            <div class="scheduler-hero">
+                <div class="section-header" style="margin-bottom: 12px;">
+                    <span class="section-tag">// PROMETRIUS OBD2 PID Scheduler (PRO)</span>
+                    <h2 class="section-title">Онлайн-построитель планов опроса и генератор .plp</h2>
+                </div>
+                <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 18px;">
+                    Инструмент ручной сборки планов опроса. Позволяет точно распределять PIDs по тактам отправки, объединять запросы в мульти-группы до 6 PIDs, выделять разовые <code>Init</code>-такты и настраивать опрос кастомных PIDs Mode 22. На выходе формируется зашифрованный бинарный план <strong>.plp</strong>, привязанный к асимметричному ключу <strong>RSA-2048</strong> вашего устройства из Паспорта.
+                </p>
+
+                <!-- Превью интерфейса планировщика с параметрами 14.0 запр/сек -->
+                <div class="sched-controls-mock">
+                    <div>ЧАСТОТА АДАПТЕРА: <span>14.0 ЗАПР/СЕК</span></div>
+                    <div>РАЗМЕР ГРУППЫ: <span>6 PIDS</span></div>
+                    <div>РАСХОД ШИНЫ: <span>60.0 / 84.0 PID/СЕК (71%)</span></div>
+                    <div>ФОРМАТ ЭКСПОРТА: <span>ENCRYPTED .PLP (RSA-2048)</span></div>
+                </div>
+
+                <div class="sched-grid-preview">
+                    <!-- Левая колонка превью: 2 бюджета для 7DF (77%) и 7E1 (15%) -->
+                    <div class="sched-box">
+                        <div class="sched-box-head">
+                            <span>Бюджет пропускной способности</span>
+                            <span>60.0 / 84.0 PID/сек</span>
+                        </div>
+
+                        <!-- Бюджет 7DF -->
+                        <div style="padding: 10px 14px 4px; font-size: 0.8rem; color: var(--text-dim); display: flex; justify-content: space-between;">
+                            <span>Блок 7DF@01 (ДВС)</span>
+                            <span style="color: var(--accent-teal); font-family: var(--font-mono);">77%</span>
+                        </div>
+                        <div class="budget-fill-bar">
+                            <div class="budget-fill" style="width: 77%;">77%</div>
+                        </div>
+
+                        <!-- Бюджет 7E1 -->
+                        <div style="padding: 8px 14px 4px; font-size: 0.8rem; color: var(--text-dim); display: flex; justify-content: space-between;">
+                            <span>Блок 7E1@22 (АКПП)</span>
+                            <span style="color: var(--warning); font-family: var(--font-mono);">15%</span>
+                        </div>
+                        <div class="budget-fill-bar">
+                            <div class="budget-fill" style="width: 15%; background: var(--warning);">15%</div>
+                        </div>
+
+                        <div style="padding: 6px 14px 12px; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); line-height: 1.5;">
+                            10.0Hz: 4 групп (4 PIDs) — 7DF<br>
+                            2.0Hz: 5 групп (5 PIDs) — 7DF<br>
+                            1.0Hz: 1 такт (ATF Mode 22) — 7E1
+                        </div>
+                    </div>
+
+                    <!-- Правая колонка превью: Таблица тактов -->
+                    <div class="sched-box">
+                        <div class="sched-box-head">
+                            <span>Расписание отправок (Группы)</span>
+                            <span>Такты 0..9</span>
+                        </div>
+                        <table class="sched-table">
+                            <thead>
+                            <tr>
+                                <th>Цикл</th>
+                                <th>Target</th>
+                                <th>Mode</th>
+                                <th>PIDs (Группа)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="init-row">
+                                <td><strong>Init</strong></td>
+                                <td>7DF</td>
+                                <td>01</td>
+                                <td>0105, 010F (Разовый опрос ECT, IAT)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>0</strong></td>
+                                <td>7DF</td>
+                                <td>01</td>
+                                <td>0104, 010C, 010D, 0111, 0143, 0105 (6/6)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>1</strong></td>
+                                <td style="color: var(--warning); font-weight: bold;">7E1</td>
+                                <td>22</td>
+                                <td>220109 (Температура масла АКПП ATF)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2</strong></td>
+                                <td>7DF</td>
+                                <td>01</td>
+                                <td>0104, 010C, 010D, 0111, 0143, 0123 (6/6)</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- КНОПКА: СКОРО БУДЕТ -->
+                <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between;">
+                    <div style="font-size: 0.8rem; color: var(--text-dim); max-width: 540px; font-family: var(--font-mono);">
+                        Загрузка сгенерированного плана <code>.plp</code> в приложение осуществляется бесшовно. Дешифрование выполняется аппаратно внутри защищенного хранилища Android KeyStore.
+                    </div>
+
+                    <div class="cta-disabled-btn" title="Модуль онлайн-планировщика Prometrius Web Scheduler находится на этапе закрытого тестирования">
+                        <div class="pulse-dot"></div>
+                        <span>СКОРО БУДЕТ! В разработке...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ПОДВАЛ -->
+<footer class="site-footer">
+    <div class="container footer-grid">
+        <div>
+            © 2026 <strong>Prometrius Lab</strong>. Проект <strong>Prometrius Link: OBD2 (PL.OBD2)</strong>.<br>
+            Программа для ЭВМ зарегистрирована в ФИПС (Роспатент), заявка № 2026607449.
+        </div>
+        <div style="text-align: right;">
+            Архитектура: Rust / Tokio / Axum / Android NDK (arm64-v8a)<br>
+            Техническая поддержка: <a href="mailto:support@prometrius.com">support@prometrius.com</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
