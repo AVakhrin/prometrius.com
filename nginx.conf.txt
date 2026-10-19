@@ -16,10 +16,22 @@ server {
         try_files $uri $uri/ =404;
     }
 
+    # PHP обработка
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_pass unix:/run/php/php-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
     # Кэш статики: браузер не будет тянуть одно и то же каждый раз
     location ~* \.(css|js|jpg|jpeg|png|svg|ico|woff|woff2)$ {
         expires 30d;
         add_header Cache-Control "public, immutable";
+    }
+
+    # Запрет прямого доступа к лог-файлу
+    location ~ /downloads/\. {
+        deny all;
     }
 }
 
