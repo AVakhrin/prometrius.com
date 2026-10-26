@@ -71,18 +71,10 @@
                         </div>
                     </a>
 
-                    <!-- DTC code base (code → name map).
-                         Served by PHP: it also counts downloads and returns 304
-                         when the base has not changed. Names are in English. -->
-                    <a href="/mod_a/obd2/getdtc.php" class="btn-dl">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M4 4h16v2.5H4V4zm0 4.75h16v2.5H4v-2.5zM4 13.5h10V16H4v-2.5zm12 0h4V16h-4v-2.5z"/>
-                        </svg>
-                        <div class="btn-dl-desc">
-                            <span class="title">DTC codes base (275 KB)</span>
-                            <span class="sub">names are in English</span>
-                        </div>
-                    </a>
+                    <!-- The code base is deliberately ABSENT here (customer
+                         decision): it is downloaded ONLY from the app, via the
+                         button under the Diagnostics toggle. The endpoint
+                         /mod_a/obd2/getdtc.php stays and is what the app uses. -->
                 </div>
 
                 <div class="specs-bar">
