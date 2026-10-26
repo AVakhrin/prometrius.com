@@ -93,8 +93,17 @@ function dtc_bump(string $log): void
 if (isset($_GET['stat'])) {
     header('Content-Type: application/json; charset=utf-8');
     header('Cache-Control: no-store');
+    // `writable` — ЧЕСТНЫЙ ОТВЕТ О ЗАПИСИ. Без него счётчик, которому не хватило
+    // прав, выглядит как «никто не скачивает»: число просто не растёт и всё.
+    $logDir = dirname(LOG_FILE);
+    $writable = is_file(LOG_FILE) ? is_writable(LOG_FILE) : is_writable($logDir);
     echo json_encode(
-        ['file' => FILE_NAME, 'downloads' => dtc_downloads(LOG_FILE)],
+        [
+            'file'      => FILE_NAME,
+            'downloads' => dtc_downloads(LOG_FILE),
+            'writable'  => $writable,
+            'log'       => LOG_FILE,
+        ],
         JSON_UNESCAPED_UNICODE
     );
     exit;
