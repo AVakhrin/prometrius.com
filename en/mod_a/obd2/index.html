@@ -68,6 +68,19 @@
                             <span class="sub">direct download</span>
                         </div>
                     </a>
+
+                    <!-- DTC code base (code → name map).
+                         Served by PHP: it also counts downloads and returns 304
+                         when the base has not changed. Names are in English. -->
+                    <a href="/mod_a/obd2/getdtc.php" class="btn-dl">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 4h16v2.5H4V4zm0 4.75h16v2.5H4v-2.5zM4 13.5h10V16H4v-2.5zm12 0h4V16h-4v-2.5z"/>
+                        </svg>
+                        <div class="btn-dl-desc">
+                            <span class="title">DTC codes base (275 KB)</span>
+                            <span class="sub">names are in English · downloaded <strong id="dtc-count">…</strong> times</span>
+                        </div>
+                    </a>
                 </div>
 
                 <div class="specs-bar">
@@ -419,6 +432,20 @@
             </div>
         </div>
     </footer>
+
+<script>
+/* Download counter for the DTC base.
+   The page is static while the number lives in a PHP log, so one light
+   request is made. If it fails, a dash is shown: the page matters more. */
+(function () {
+    var el = document.getElementById('dtc-count');
+    if (!el) return;
+    fetch('/mod_a/obd2/getdtc.php?stat=1', { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { if (d && typeof d.downloads === 'number') el.textContent = d.downloads; })
+        .catch(function () { el.textContent = '—'; });
+})();
+</script>
 
 </body>
 </html>

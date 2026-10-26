@@ -65,6 +65,19 @@
                         <span class="sub">прямая загрузка</span>
                     </div>
                 </a>
+
+                <!-- База кодов ошибок (карта «код → наименование»).
+                     Отдаётся PHP: он же считает скачивания и отдаёт 304,
+                     когда база не менялась. Наименования — на английском. -->
+                <a href="/mod_a/obd2/getdtc.php" class="btn-dl">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 4h16v2.5H4V4zm0 4.75h16v2.5H4v-2.5zM4 13.5h10V16H4v-2.5zm12 0h4V16h-4v-2.5z"/>
+                    </svg>
+                    <div class="btn-dl-desc">
+                        <span class="title">База кодов ошибок (275 КБ)</span>
+                        <span class="sub">наименования на английском · скачано <strong id="dtc-count">…</strong></span>
+                    </div>
+                </a>
             </div>
 
             <div class="specs-bar">
@@ -415,6 +428,20 @@
         </div>
     </div>
 </footer>
+
+<script>
+/* Счётчик скачиваний базы кодов.
+   Страница статическая, а число живёт в логе PHP — поэтому один лёгкий
+   запрос. Не ответил — оставляем прочерк: страница важнее цифры. */
+(function () {
+    var el = document.getElementById('dtc-count');
+    if (!el) return;
+    fetch('/mod_a/obd2/getdtc.php?stat=1', { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { if (d && typeof d.downloads === 'number') el.textContent = d.downloads; })
+        .catch(function () { el.textContent = '—'; });
+})();
+</script>
 
 </body>
 </html>
