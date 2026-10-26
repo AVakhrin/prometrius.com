@@ -75,7 +75,7 @@
                     </svg>
                     <div class="btn-dl-desc">
                         <span class="title">База кодов ошибок (275 КБ)</span>
-                        <span class="sub">наименования на английском · скачано <strong id="dtc-count">…</strong></span>
+                        <span class="sub">наименования на английском</span>
                     </div>
                 </a>
             </div>
@@ -428,20 +428,6 @@
         </div>
     </div>
 </footer>
-
-<script>
-/* Счётчик скачиваний базы кодов.
-   Страница статическая, а число живёт в логе PHP — поэтому один лёгкий
-   запрос. Не ответил — оставляем прочерк: страница важнее цифры. */
-(function () {
-    var el = document.getElementById('dtc-count');
-    if (!el) return;
-    fetch('/mod_a/obd2/getdtc.php?stat=1', { cache: 'no-store' })
-        .then(function (r) { return r.json(); })
-        .then(function (d) { if (d && typeof d.downloads === 'number') el.textContent = d.downloads; })
-        .catch(function () { el.textContent = '—'; });
-})();
-</script>
 
 </body>
 </html>

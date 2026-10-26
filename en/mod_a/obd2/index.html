@@ -78,7 +78,7 @@
                         </svg>
                         <div class="btn-dl-desc">
                             <span class="title">DTC codes base (275 KB)</span>
-                            <span class="sub">names are in English · downloaded <strong id="dtc-count">…</strong> times</span>
+                            <span class="sub">names are in English</span>
                         </div>
                     </a>
                 </div>
@@ -432,20 +432,6 @@
             </div>
         </div>
     </footer>
-
-<script>
-/* Download counter for the DTC base.
-   The page is static while the number lives in a PHP log, so one light
-   request is made. If it fails, a dash is shown: the page matters more. */
-(function () {
-    var el = document.getElementById('dtc-count');
-    if (!el) return;
-    fetch('/mod_a/obd2/getdtc.php?stat=1', { cache: 'no-store' })
-        .then(function (r) { return r.json(); })
-        .then(function (d) { if (d && typeof d.downloads === 'number') el.textContent = d.downloads; })
-        .catch(function () { el.textContent = '—'; });
-})();
-</script>
 
 </body>
 </html>
