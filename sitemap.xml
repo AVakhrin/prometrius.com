@@ -6,7 +6,7 @@
     <loc>https://prometrius.com/</loc>
     <xhtml:link rel="alternate" hreflang="ru" href="https://prometrius.com/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://prometrius.com/en/"/>
-    <lastmod>2026-09-21</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -18,6 +18,60 @@
     <lastmod>2026-09-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://prometrius.com/mod_a/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://prometrius.com/mod_a/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://prometrius.com/en/mod_a/"/>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://prometrius.com/en/mod_a/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://prometrius.com/mod_a/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://prometrius.com/en/mod_a/"/>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://prometrius.com/mod_a/obd2/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://prometrius.com/mod_a/obd2/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://prometrius.com/en/mod_a/obd2/"/>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://prometrius.com/en/mod_a/obd2/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://prometrius.com/mod_a/obd2/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://prometrius.com/en/mod_a/obd2/"/>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://prometrius.com/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://prometrius.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://prometrius.com/en/privacy/"/>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://prometrius.com/en/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://prometrius.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://prometrius.com/en/privacy/"/>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 
 </urlset>
