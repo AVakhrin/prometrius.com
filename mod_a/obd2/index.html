@@ -55,14 +55,16 @@
                     </div>
                 </a>
 
-                <!-- Direct APK -->
-                <a href="https://prometrius.com/downloads/app_obd2-release.apk" class="btn-dl">
+                <!-- Direct APK.
+                     Ссылка идёт ЧЕРЕЗ счётчик: он +1 к числу и редиректит на файл.
+                     Прямая ссылка на .apk считала бы через раз — то есть никак. -->
+                <a href="/downloads/count-downloads.php?file=app_obd2-release.apk" class="btn-dl">
                     <svg viewBox="0 0 24 24">
                         <path d="M5 20h14v-2H5v2zM12 2L6.5 8.5h3.5V16h4V8.5h3.5L12 2z"/>
                     </svg>
                     <div class="btn-dl-desc">
                         <span class="title">app_obd2-release.apk (arm64-v8a)</span>
-                        <span class="sub">прямая загрузка</span>
+                        <span class="sub">прямая загрузка · скачано <strong id="apk-count">…</strong></span>
                     </div>
                 </a>
 
@@ -428,6 +430,19 @@
         </div>
     </div>
 </footer>
+
+<script>
+/* Счётчик скачиваний APK. Страница статическая, а число живёт в логе PHP,
+   поэтому один лёгкий запрос. Не ответил — прочерк: страница важнее цифры. */
+(function () {
+    var el = document.getElementById('apk-count');
+    if (!el) return;
+    fetch('/downloads/count-downloads.php?file=app_obd2-release.apk&stat=1', { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { if (d && typeof d.downloads === 'number') el.textContent = d.downloads; })
+        .catch(function () { el.textContent = '—'; });
+})();
+</script>
 
 </body>
 </html>
