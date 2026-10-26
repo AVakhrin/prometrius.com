@@ -37,8 +37,38 @@
 declare(strict_types=1);
 
 const MAP_FILE  = __DIR__ . '/data/dtc_map.bin';
-const LOG_FILE  = __DIR__ . '/data/dtc_downloads.log';
 const FILE_NAME = 'dtc_map.bin';
+
+/**
+ * ЛОГ СЧЁТЧИКА — ВНЕ ДЕПЛОЯЕМОГО ДЕРЕВА.
+ *
+ * ПОЧЕМУ. Пока лог лежал внутри деплоя, было две беды по очереди: файл
+ * приезжал из git под владельцем репозитория и был недоступен на запись для
+ * www-data (счётчик молча не считал), а после исключения из git `git pull`
+ * СТАЛ УДАЛЯТЬ его из рабочего дерева. Состояние, которое пишет сервер, не
+ * должно жить там, где распоряжается деплой.
+ *
+ * ВЛАДЕЛЕЦ СТАВИТСЯ ОДИН РАЗ:
+ *     sudo mkdir -p /var/lib/prometrius
+ *     sudo chown www-data:www-data /var/lib/prometrius
+ */
+function dtc_log_path(string $name): string
+{
+    $dir = getenv('PROMETRIUS_STATE_DIR');
+    if ($dir === false || $dir === '') {
+        $dir = '/var/lib/prometrius';
+    }
+    if (is_dir($dir) && is_writable($dir)) {
+        return $dir . '/' . $name;
+    }
+    if (!is_dir($dir) && @mkdir($dir, 0775, true) && is_writable($dir)) {
+        return $dir . '/' . $name;
+    }
+    // запасной путь: рядом с данными (разработка)
+    return __DIR__ . '/data/' . $name;
+}
+
+define('LOG_FILE', dtc_log_path('dtc_downloads.log'));
 
 /** Текущее число скачиваний: читаем ПОСЛЕДНЮЮ строку с count=N. */
 function dtc_downloads(string $log): int
